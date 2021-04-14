@@ -39,6 +39,12 @@
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>./dist/pmdb-angular</directory>
+				<targetPath>static</targetPath>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -76,7 +82,7 @@
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<arguments>run build</arguments> <!-- change this to buildProduction for production -->
+							<arguments>run buildProduction</arguments> <!-- change this to buildProduction for production -->
 						</configuration>
 						<phase>generate-resources</phase>
 					</execution>
