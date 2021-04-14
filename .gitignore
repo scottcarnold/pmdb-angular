@@ -13,6 +13,7 @@ target/
 /bazel-out
 
 # dependencies
+/node
 /node_modules
 
 # profiling files
