@@ -9,7 +9,8 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  authenticate(username: string, password: string): void {
-    //return this.http.post<User>('/api/authenticate', {username, password}).shareReplay();
+  authenticate(username: string, password: string): string {
+    //this.http.get('test').subscribe(data => this.greeting = data);
+    return 'testing';
   }
 }

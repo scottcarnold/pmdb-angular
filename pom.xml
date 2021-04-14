@@ -44,6 +44,13 @@
 				<directory>./dist/pmdb-angular</directory>
 				<targetPath>static</targetPath>
 			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.yml</include>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
 		</resources>
 		<plugins>
 			<plugin>

@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
     username: ['', [Validators.required]],
     password: ['', [Validators.required]]
   });
+  greeting = '';
 
   constructor(private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -24,7 +25,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.authService.authenticate(
+    this.greeting = this.authService.authenticate(
       this.loginForm.get('username').value,
       this.loginForm.get('password').value);
   }
