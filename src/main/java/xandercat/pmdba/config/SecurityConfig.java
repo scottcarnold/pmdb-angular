@@ -1,5 +1,7 @@
 package xandercat.pmdba.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(SecurityConfig.class);
+	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -20,15 +24,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		System.out.println("Configuring users...");
+		LOGGER.info("Configuring user authentication...");
 		auth.inMemoryAuthentication().withUser("user").password(passwordEncoder().encode("password")).roles("USER");
 	}
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		System.out.println("Configuring HTTP Security...");
+		LOGGER.info("Configuring HTTP Security...");
 		http
-			.authorizeRequests()
-				.antMatchers("/**").permitAll();
+			.httpBasic()
+			.and().authorizeRequests()
+				.antMatchers("/login*").permitAll()
+				.antMatchers("/*.css").permitAll()
+				.antMatchers("/*.js").permitAll()
+				.antMatchers("/*.js.map").permitAll()
+				.antMatchers("/index.html").permitAll()
+				.antMatchers("/favicon.ico").permitAll()
+				.antMatchers("/test").permitAll()
+				.antMatchers("/**").hasRole("USER");
+				
 	}
 }

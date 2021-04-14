@@ -25,8 +25,15 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.greeting = this.authService.authenticate(
+    this.authService.authenticate(
       this.loginForm.get('username').value,
-      this.loginForm.get('password').value);
+      this.loginForm.get('password').value,
+      () => {
+        if (this.authService.authenticated) {
+          this.greeting = 'authenticated';
+        } else {
+          this.greeting = 'NOT authenticated';
+        }
+      });
   }
 }
