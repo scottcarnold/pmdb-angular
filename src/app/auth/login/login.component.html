@@ -1,0 +1,12 @@
+<h1>Login to PMDB</h1>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="legacy">
+    <mat-label>Username</mat-label>
+    <input matInput formControlName="username">
+  </mat-form-field><br/>
+  <mat-form-field appearance="legacy">
+    <mat-label>Password</mat-label>
+    <input matInput formControlName="password">
+  </mat-form-field><br/>
+  <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">Login</button>
+</form>

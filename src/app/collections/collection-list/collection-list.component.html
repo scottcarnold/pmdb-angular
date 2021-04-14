@@ -1,0 +1,37 @@
+<table mat-table [dataSource]="viewableCollectionsTableDataSource">
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef [ngClass]="'tcell'">Name</th>
+    <td mat-cell *matCellDef="let collectionInfo" [ngClass]="'tcell'">{{collectionInfo.collection.name}}</td>
+  </ng-container>
+  <ng-container matColumnDef="owner">
+    <th mat-header-cell *matHeaderCellDef [ngClass]="'tcell'">Owner</th>
+    <td mat-cell *matCellDef="let collectionInfo" [ngClass]="'tcell'">{{collectionInfo.collection.owner}}</td>
+  </ng-container>
+  <ng-container matColumnDef="cloud">
+    <th mat-header-cell *matHeaderCellDef [ngClass]="'tcell'">Storage</th>
+    <td mat-cell *matCellDef="let collectionInfo" [ngClass]="'tcell'">{{collectionInfo.collection.cloud ? 'AWS Cloud' : 'PMDB'}}</td>
+  </ng-container>
+  <ng-container matColumnDef="publicView">
+    <th mat-header-cell *matHeaderCellDef [ngClass]="'tcell'">Public URL</th>
+    <td mat-cell *matCellDef="let collectionInfo" [ngClass]="'tcell'">{{collectionInfo.collection.publicView}}</td>
+  </ng-container>
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef [ngClass]="'tcell'">Action</th>
+    <td mat-cell *matCellDef="let collectionInfo" [ngClass]="'tcell'">
+      <button mat-raised-button color="primary" [ngClass]="'actionButton'">Set Active</button>
+      <ng-container *ngIf="collectionInfo.editable">
+        <button mat-raised-button color="primary" [ngClass]="'actionButton'">Edit Name</button>
+        <button mat-raised-button color="primary" [ngClass]="'actionButton'">Sharing</button>
+      </ng-container>
+      <ng-container *ngIf="collectionInfo.owned">
+        <button mat-raised-button color="warn" [ngClass]="'actionButton'">Delete</button>
+      </ng-container>
+      <ng-container *ngIf="!collectionInfo.owned">
+        <button mat-raised-button color="accent" [ngClass]="'actionButton'">Remove</button>
+      </ng-container>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay">
+  </tr>
+  <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+</table>
