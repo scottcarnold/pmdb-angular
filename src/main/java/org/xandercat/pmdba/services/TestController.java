@@ -1,4 +1,4 @@
-package xandercat.pmdba.services;
+package org.xandercat.pmdba.services;
 
 import java.util.stream.Collectors;
 

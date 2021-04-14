@@ -1,4 +1,4 @@
-package xandercat.pmdba.config;
+package org.xandercat.pmdba.config;
 
 import java.io.IOException;
 

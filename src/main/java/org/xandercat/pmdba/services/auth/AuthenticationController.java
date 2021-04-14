@@ -1,4 +1,4 @@
-package xandercat.pmdba.services.auth;
+package org.xandercat.pmdba.services.auth;
 
 import java.security.Principal;
 import java.util.stream.Collectors;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import xandercat.pmdba.config.SecurityConfig;
+import org.xandercat.pmdba.config.SecurityConfig;
 
 @RestController
 public class AuthenticationController {

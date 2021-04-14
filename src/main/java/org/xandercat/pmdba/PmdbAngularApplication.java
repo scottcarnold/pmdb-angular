@@ -1,4 +1,4 @@
-package xandercat.pmdba;
+package org.xandercat.pmdba;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
