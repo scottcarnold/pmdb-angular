@@ -1,4 +1,4 @@
-package org.xandercat.pmdba.services;
+package org.xandercat.pmdba.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -40,7 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/*.js.map").permitAll()
 				.antMatchers("/index.html").permitAll()
 				.antMatchers("/favicon.ico").permitAll()
-				.antMatchers("/test").permitAll()
 				.antMatchers("/**").hasRole("USER");
 				
 	}
