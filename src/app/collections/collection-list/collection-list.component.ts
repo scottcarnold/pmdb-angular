@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Collection } from '../collection';
 import { CollectionInfo } from '../collection-info';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { CollectionService } from '../collection.service';
 
 @Component({
@@ -15,13 +15,19 @@ export class CollectionListComponent implements OnInit {
   viewableCollections: CollectionInfo[];
   viewableCollectionsTableDataSource: MatTableDataSource<CollectionInfo>;
   columnsToDisplay: string[] = ['name', 'owner', 'cloud', 'publicView', 'action'];
+  @ViewChild(MatTable) table: MatTable<any>;
 
   constructor(private collectionService: CollectionService) { }
 
   ngOnInit(): void {
     this.defaultCollection = this.collectionService.getDefaultMovieCollection();
-    this.viewableCollections = this.collectionService.getViewableMovieCollections();
-    this.viewableCollectionsTableDataSource = new MatTableDataSource<CollectionInfo>(this.viewableCollections);
+    this.viewableCollectionsTableDataSource = new MatTableDataSource<CollectionInfo>([]);
+    this.collectionService.getViewableMovieCollections().subscribe(
+      collectionInfos => {
+        this.viewableCollectionsTableDataSource.data = collectionInfos;
+      }
+    );
+
   }
 
 }

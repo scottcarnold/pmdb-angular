@@ -62,6 +62,7 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+props.bat
 
 # System Files
 .DS_Store

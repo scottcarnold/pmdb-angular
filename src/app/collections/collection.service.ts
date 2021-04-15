@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from "rxjs/operators";
 import { Collection } from './collection';
-import { CollectionInfo } from './collection-info';
+import { CollectionInfo, CollectionInfoAdapter } from './collection-info';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CollectionService {
 
-  constructor() { }
+  constructor(private http: HttpClient, private adapter: CollectionInfoAdapter) { }
 
   getDefaultMovieCollection(): Collection {
     return {
@@ -15,17 +18,10 @@ export class CollectionService {
     };
   }
 
-  getViewableMovieCollections(): CollectionInfo[] {
-    return [
-      {
-        collection: {id: "c1", name: "My Movie Collection", owner: "scott", cloud: false, publicView: false},
-        editable: true
-      },
-      {
-        collection: {id: "c2", name: "Cool Movie Collection", owner: "snoopy", cloud: false, publicView: false},
-        editable: false
-      }
-    ];
+  getViewableMovieCollections(): Observable<CollectionInfo[]> {
+    return this.http.get('services/collections').pipe(
+      map((data: any[]) => data.map((item) => this.adapter.adapt(item)))
+    );
   }
 
   getShareOfferMovieCollections(): CollectionInfo[] {

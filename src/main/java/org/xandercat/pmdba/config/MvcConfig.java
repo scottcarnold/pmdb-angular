@@ -12,6 +12,9 @@ import org.springframework.web.servlet.resource.PathResourceResolver;
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
 
+	/**
+	 * Configure Spring to route anything that might be an Angular router path back to Angular.
+	 */
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/**")
