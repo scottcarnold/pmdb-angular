@@ -10,13 +10,17 @@ import { MoviesModule } from './movies/movies.module';
 import { CollectionsModule } from './collections/collections.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpInterceptor, HttpRequest, HttpHandler, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthService } from './auth/auth.service';
 
-// this will prevent the browser login popup since we are using HTTP Basic but with our own separate form
+
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
+  constructor(private authService: AuthService) { }
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     const xhr = req.clone({
-      headers: req.headers.set('X-Requested-With', 'XMLHttpRequest')
+      headers: req.headers
+        .set('X-Requested-With', 'XMLHttpRequest')         // this will prevent the browser login popup since we are using HTTP Basic but with our own separate form
+        .set('X-Auth-Token', this.authService.xAuthToken)  // this provides the session id to the backend (really only needed to support using ng serve during development)
     });
     return next.handle(xhr);
   }

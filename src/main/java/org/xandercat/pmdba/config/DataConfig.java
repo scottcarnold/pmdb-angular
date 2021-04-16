@@ -2,7 +2,7 @@ package org.xandercat.pmdba.config;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,16 +34,9 @@ public class DataConfig {
 	 * @return data source
 	 */
 	@Bean
-	public DataSource dataSource(@Value("${datasource.driver.class.name}") String driverClassName,
-			@Value("${datasource.url}") String url, 
-			@Value("${datasource.username}") String username,
-			@Value("${datasource.password}") String password) {
-		return DataSourceBuilder.create()
-			.driverClassName(driverClassName)
-			.url(url)
-			.username(username)
-			.password(password)
-			.build();
+	@ConfigurationProperties(prefix="pmdb.datasource")
+	public DataSource pmdbDataSource() {
+		return DataSourceBuilder.create().build();
 	}
 	
 	/**
@@ -54,7 +47,7 @@ public class DataConfig {
 	 * @return JDBC template for datasource
 	 */
 	@Bean
-	public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-		return new JdbcTemplate(dataSource);
+	public JdbcTemplate jdbcTemplate(DataSource pmdbDataSource) {
+		return new JdbcTemplate(pmdbDataSource);
 	}
 }

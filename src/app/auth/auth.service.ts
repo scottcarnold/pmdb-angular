@@ -1,13 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User }  from './user';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  authenticated = false;
+  authenticated: boolean = false;
+  xAuthToken: string = '';
 
   constructor(private http: HttpClient) { }
 
@@ -15,11 +17,15 @@ export class AuthService {
     const headers = new HttpHeaders({
       authorization: 'Basic ' + btoa(username + ':' + password)
     });
-    this.http.get('user', {headers: headers}).subscribe(response => {
-      if (response['name']) {
+    this.http.get(environment.servicesUrl + 'user', {headers: headers, observe: 'response'}).subscribe(response => {
+      if (response['body']['name']) {
         this.authenticated = true;
+        console.log(response);
+        console.log(response.headers.get('devsessionid'));
+        this.xAuthToken = response.headers.get('devsessionid');
       } else {
         this.authenticated = false;
+        console.log(response);
       }
       return callback && callback();
     });

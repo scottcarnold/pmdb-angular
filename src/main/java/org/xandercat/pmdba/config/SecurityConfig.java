@@ -33,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		LOGGER.info("Configuring HTTP Security...");
 		http
 			.httpBasic()
+			.and().cors()
 			.and().authorizeRequests()
 				.antMatchers("/login*").permitAll()
 				.antMatchers("/*.css").permitAll()
