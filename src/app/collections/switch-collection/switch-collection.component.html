@@ -1,0 +1,13 @@
+<h2 mat-dialog-title>Choose Current Movie Collection</h2>
+<mat-form-field appearance="legacy">
+  <mat-select [(value)]="selectedCollectionId">
+    <mat-label>Movie Collection</mat-label>
+    <ng-container *ngFor="let viewableCollection of viewableCollections">
+      <mat-option [value]="viewableCollection.collection.id">{{viewableCollection.collection.name}}</mat-option>
+    </ng-container>
+  </mat-select>
+</mat-form-field><br/>
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="cancel()">Cancel</button>
+  <button mat-raised-button (click)="switchCollection()">Select</button>
+</div>

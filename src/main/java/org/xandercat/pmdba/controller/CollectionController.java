@@ -11,18 +11,19 @@ import org.xandercat.pmdba.dto.MovieCollectionInfo;
 import org.xandercat.pmdba.service.CollectionService;
 
 @RestController
+@RequestMapping("/services/collections")
 public class CollectionController {
 
 	@Autowired
 	private CollectionService collectionService;
 	
-	@RequestMapping("/services/collections/default")
+	@RequestMapping("/default")
 	public MovieCollectionInfo defaultCollection(Principal principal) {
 		Optional<MovieCollectionInfo> movieCollectionInfo = collectionService.getDefaultMovieCollection(principal.getName());
 		return movieCollectionInfo.isPresent()? movieCollectionInfo.get() : null;
 	}
 	
-	@RequestMapping("/services/collections/viewable")
+	@RequestMapping("/viewable")
 	public List<MovieCollectionInfo> viewableCollections(Principal principal) {
 		return collectionService.getViewableMovieCollections(principal.getName());
 	}

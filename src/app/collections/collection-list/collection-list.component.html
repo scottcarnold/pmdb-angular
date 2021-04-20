@@ -1,4 +1,18 @@
-<p>Your default movie collection is: {{defaultCollection?.collection.name}}</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{defaultCollection?.collection.name}}</mat-card-title>
+    <mat-card-subtitle>Current Movie Collection</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p>You can only view, add, delete, and update movies from your current movie collection.  If you
+      with to work with a different movie collection, you can switch to that collection from here.
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button (click)="openSwitchCollectionDialog()">Change Current Collection</button>
+    <button mat-raised-button>Create New Collection</button>
+  </mat-card-actions>
+</mat-card>
 <table mat-table [dataSource]="viewableCollectionsTableDataSource">
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef [ngClass]="'tcell'">Name</th>

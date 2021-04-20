@@ -1,8 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Collection } from '../collection';
 import { CollectionInfo } from '../collection-info';
+
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
 import { CollectionService } from '../collection.service';
+import { SwitchCollectionComponent } from '../switch-collection/switch-collection.component';
 
 @Component({
   selector: 'app-collection-list',
@@ -17,7 +20,7 @@ export class CollectionListComponent implements OnInit {
   columnsToDisplay: string[] = ['name', 'owner', 'cloud', 'publicView', 'action'];
   @ViewChild(MatTable) table: MatTable<any>;
 
-  constructor(private collectionService: CollectionService) { }
+  constructor(private collectionService: CollectionService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.collectionService.getDefaultMovieCollection().subscribe(
@@ -30,4 +33,8 @@ export class CollectionListComponent implements OnInit {
 
   }
 
+  openSwitchCollectionDialog(): void {
+    const dialogRef = this.dialog.open(SwitchCollectionComponent);
+    dialogRef.afterClosed().subscribe(result => { console.log(`${result}`)});
+  }
 }
