@@ -11,7 +11,7 @@ import { CollectionService } from '../collection.service';
 })
 export class CollectionListComponent implements OnInit {
 
-  defaultCollection: Collection;
+  defaultCollection: CollectionInfo;
   viewableCollections: CollectionInfo[];
   viewableCollectionsTableDataSource: MatTableDataSource<CollectionInfo>;
   columnsToDisplay: string[] = ['name', 'owner', 'cloud', 'publicView', 'action'];
@@ -20,12 +20,12 @@ export class CollectionListComponent implements OnInit {
   constructor(private collectionService: CollectionService) { }
 
   ngOnInit(): void {
-    this.defaultCollection = this.collectionService.getDefaultMovieCollection();
+    this.collectionService.getDefaultMovieCollection().subscribe(
+      collectionInfo => { this.defaultCollection = collectionInfo; }
+    );
     this.viewableCollectionsTableDataSource = new MatTableDataSource<CollectionInfo>([]);
     this.collectionService.getViewableMovieCollections().subscribe(
-      collectionInfos => {
-        this.viewableCollectionsTableDataSource.data = collectionInfos;
-      }
+      collectionInfos => { this.viewableCollectionsTableDataSource.data = collectionInfos; }
     );
 
   }

@@ -13,14 +13,14 @@ export class CollectionService {
 
   constructor(private http: HttpClient, private adapter: CollectionInfoAdapter) { }
 
-  getDefaultMovieCollection(): Collection {
-    return {
-      id: "c1", name: "My Movie Collection", owner: "scott", cloud: false, publicView: false
-    };
+  getDefaultMovieCollection(): Observable<CollectionInfo> {
+    return this.http.get(environment.servicesUrl + 'services/collections/default').pipe(
+      map((item: any) => this.adapter.adapt(item))
+    );
   }
 
   getViewableMovieCollections(): Observable<CollectionInfo[]> {
-    return this.http.get(environment.servicesUrl + 'services/collections').pipe(
+    return this.http.get(environment.servicesUrl + 'services/collections/viewable').pipe(
       map((data: any[]) => data.map((item) => this.adapter.adapt(item)))
     );
   }

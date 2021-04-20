@@ -17,7 +17,7 @@ export class AuthService {
     const headers = new HttpHeaders({
       authorization: 'Basic ' + btoa(username + ':' + password)
     });
-    this.http.get(environment.servicesUrl + 'user', {headers: headers, observe: 'response'}).subscribe(response => {
+    this.http.get(environment.servicesUrl + 'authenticate', {headers: headers, observe: 'response'}).subscribe(response => {
       if (response['body']['name']) {
         this.authenticated = true;
         console.log(response);
