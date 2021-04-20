@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { Injectable, NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,18 +11,34 @@ import { CollectionsModule } from './collections/collections.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpInterceptor, HttpRequest, HttpHandler, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthService } from './auth/auth.service';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     const xhr = req.clone({
       headers: req.headers
         .set('X-Requested-With', 'XMLHttpRequest')         // this will prevent the browser login popup since we are using HTTP Basic but with our own separate form
         .set('X-Auth-Token', this.authService.xAuthToken)  // this provides the session id to the backend (really only needed to support using ng serve during development)
     });
-    return next.handle(xhr);
+    return next.handle(xhr).pipe(catchError(x => this.handleAuthError(x)));
+  }
+
+  private handleAuthError(err: HttpErrorResponse): Observable<any> {
+    // if user is unauthorized for a request, route them to the login page
+    if (err.status == 401 || err.status == 403) {
+      console.log('caught unauthorized error');
+      if (this.authService.attemptInProgress) {
+        this.router.navigate(['/login', '1'])
+      } else {
+        this.router.navigate(['/login']);
+      }
+    }
+    return throwError(err);
   }
 }
 

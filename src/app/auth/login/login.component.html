@@ -9,5 +9,5 @@
     <input matInput formControlName="password">
   </mat-form-field><br/>
   <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">Login</button>
-  <p>{{greeting}}</p>
+  <p class="errorMessage">{{authenticationMessage}}</p>
 </form>

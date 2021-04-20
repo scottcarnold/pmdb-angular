@@ -24,7 +24,11 @@ export class CollectionInfo {
 })
 export class CollectionInfoAdapter implements Adapter<CollectionInfo> {
   adapt(item: any): CollectionInfo {
-    let collection = new CollectionAdapter().adapt(item.movieCollection);
-    return new CollectionInfo(collection, item.editable, item.owned);
+    if (item === null || item === undefined) {
+      return item;
+    } else {
+      let collection = new CollectionAdapter().adapt(item.movieCollection);
+      return new CollectionInfo(collection, item.editable, item.owned);
+    }
   }
 }
