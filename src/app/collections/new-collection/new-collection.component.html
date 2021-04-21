@@ -4,7 +4,7 @@
   <input hidden="true" matInput formControlName="id">
 
   <!-- form field with validation directive -->
-  <mat-form-field>
+  <mat-form-field class="fullWidth">
     <mat-label>Movie Collection Name</mat-label>
     <input matInput formControlName="name">
     <mat-error>
@@ -13,12 +13,12 @@
   </mat-form-field><br/>
 
   <!-- form field with custom component -->
-  <app-form-field label="Description" [control]="collectionForm.get('desc')">
+  <app-form-field label="Description" [control]="collectionForm.get('desc')" class="fullWidth">
     <input matInput formControlName="desc"/>
   </app-form-field><br/>
 
   <mat-checkbox matInput formControlName="cloud">
     Store this collection on AWS Cloud
   </mat-checkbox><br/>
-  <button mat-raised-button color="primary" type="submit" [disabled]="!collectionForm.valid">Login</button>
+  <button mat-raised-button color="primary" type="submit" [disabled]="!collectionForm.valid">Save</button>
 </form>

@@ -12,6 +12,7 @@ export class FormFieldComponent implements OnInit {
   @Input() public label: string;
   @Input() public control: FormControl;
   @Input() public appearance: 'legacy' | 'fill' | 'standard' | 'outline';
+  @Input() public class: string;
 
   @ContentChild(MatFormFieldControl, {static: true})
   public formFieldControl: MatFormFieldControl<any>;
