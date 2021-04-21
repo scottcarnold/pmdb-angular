@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-new-collection',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewCollectionComponent implements OnInit {
 
-  constructor() { }
+  collectionForm = this.formBuilder.group({
+    id: [''],
+    name: ['', [Validators.required, Validators.maxLength(100)]],
+    desc: ['', [Validators.required, Validators.maxLength(100)]],
+    cloud: [false]
+  });
+
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
   }
 
+  onSubmit(): void {
+
+  }
 }

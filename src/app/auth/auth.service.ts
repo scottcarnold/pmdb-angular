@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 })
 export class AuthService {
 
-  attemptInProgress = false;
+  loginAttempts = 0;
   authenticated: boolean = false;
   xAuthToken: string = '';
 
@@ -18,13 +18,13 @@ export class AuthService {
     const headers = new HttpHeaders({
       authorization: 'Basic ' + btoa(username + ':' + password)
     });
-    this.attemptInProgress = true;
+    this.loginAttempts++;
     console.log('calling authenticate request');
     this.http.get(environment.servicesUrl + 'authenticate', {headers: headers, observe: 'response'}).subscribe(response => {
       console.log('handling response from authenticate request');
-      this.attemptInProgress = false;
       if (response['body']['name']) {
         this.authenticated = true;
+        this.loginAttempts = 0;
         console.log(response);
         console.log(response.headers.get('devsessionid'));
         this.xAuthToken = response.headers.get('devsessionid');

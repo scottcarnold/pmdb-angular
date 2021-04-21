@@ -10,7 +10,7 @@
   </mat-card-content>
   <mat-card-actions>
     <button mat-raised-button (click)="openSwitchCollectionDialog()">Change Current Collection</button>
-    <button mat-raised-button>Create New Collection</button>
+    <button mat-raised-button (click)="createNewCollection()">Create New Collection</button>
   </mat-card-actions>
 </mat-card>
 <table mat-table [dataSource]="viewableCollectionsTableDataSource">

@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { Collection } from '../collection';
 import { CollectionInfo } from '../collection-info';
 
@@ -20,7 +21,7 @@ export class CollectionListComponent implements OnInit {
   columnsToDisplay: string[] = ['name', 'owner', 'cloud', 'publicView', 'action'];
   @ViewChild(MatTable) table: MatTable<any>;
 
-  constructor(private collectionService: CollectionService, private dialog: MatDialog) { }
+  constructor(private collectionService: CollectionService, private dialog: MatDialog, private router: Router) { }
 
   ngOnInit(): void {
     this.collectionService.getDefaultMovieCollection().subscribe(
@@ -36,5 +37,9 @@ export class CollectionListComponent implements OnInit {
   openSwitchCollectionDialog(): void {
     const dialogRef = this.dialog.open(SwitchCollectionComponent);
     dialogRef.afterClosed().subscribe(result => { console.log(`${result}`)});
+  }
+
+  createNewCollection(): void {
+    this.router.navigateByUrl('newCollection');
   }
 }

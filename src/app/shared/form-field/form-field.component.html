@@ -1,0 +1,13 @@
+<mat-form-field #materialFormField class="form-field--full-width" [appearance]="appearance">
+  <span matPrefix>
+    <ng-content select="[prefix]"></ng-content>
+  </span>
+  <mat-label>{{label}}</mat-label>
+  <ng-content></ng-content>
+  <span matSuffix>
+    <ng-content select="[suffix]"></ng-content>
+  </span>
+  <mat-error>
+    <span [appValidation]="control" [fieldName]="label"></span>
+  </mat-error>
+</mat-form-field>

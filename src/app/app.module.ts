@@ -14,6 +14,7 @@ import { AuthService } from './auth/auth.service';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { MatFormFieldDefaultOptions, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 
 @Injectable()
@@ -32,14 +33,18 @@ export class XhrInterceptor implements HttpInterceptor {
     // if user is unauthorized for a request, route them to the login page
     if (err.status == 401 || err.status == 403) {
       console.log('caught unauthorized error');
-      if (this.authService.attemptInProgress) {
-        this.router.navigate(['/login', '1'])
+      if (this.authService.loginAttempts > 0) {
+        this.router.navigate(['/login', this.authService.loginAttempts])
       } else {
         this.router.navigate(['/login']);
       }
     }
     return throwError(err);
   }
+}
+
+const matFormFieldDefaultOptions: MatFormFieldDefaultOptions = {
+  appearance: 'outline'
 }
 
 @NgModule({
@@ -56,7 +61,10 @@ export class XhrInterceptor implements HttpInterceptor {
     CollectionsModule,
     BrowserAnimationsModule
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true}],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true},
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: matFormFieldDefaultOptions}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
