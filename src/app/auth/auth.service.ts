@@ -11,6 +11,7 @@ export class AuthService {
   loginAttempts = 0;
   authenticated: boolean = false;
   xAuthToken: string = '';
+  user: User;
 
   constructor(private http: HttpClient) { }
 
@@ -28,6 +29,7 @@ export class AuthService {
         console.log(response);
         console.log(response.headers.get('devsessionid'));
         this.xAuthToken = response.headers.get('devsessionid');
+        this.user = { name: response['body']['name'] };
       } else {
         this.authenticated = false;
         console.log(response);
