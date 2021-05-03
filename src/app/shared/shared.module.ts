@@ -7,13 +7,15 @@ import { SharedRoutingModule } from './shared-routing.module';
 import { FTextComponent } from './f-text/f-text.component';
 import { ValidationDirective } from './validation.directive';
 import { FormFieldComponent } from './form-field/form-field.component';
+import { MessagesComponent } from './messages/messages.component';
 
 
 @NgModule({
   declarations: [
     FTextComponent,
     ValidationDirective,
-    FormFieldComponent],
+    FormFieldComponent,
+    MessagesComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,
@@ -23,7 +25,8 @@ import { FormFieldComponent } from './form-field/form-field.component';
   exports: [
     FTextComponent,
     FormFieldComponent,
-    ValidationDirective
+    ValidationDirective,
+    MessagesComponent
   ]
 })
 export class SharedModule { }
