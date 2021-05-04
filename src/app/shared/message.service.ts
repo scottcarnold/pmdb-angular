@@ -7,19 +7,26 @@ import { ErrorService } from './error.service';
 })
 export class MessageService {
 
-  message: string;
+  message: string = null;
   severity: 'info' | 'warn' | 'error';
+  navcount: number = 0;
 
   constructor(private errorService: ErrorService) { }
 
   info(message: string) {
-    this.message = message;
-    this.severity = 'info';
+    if (this.severity != 'warn' && this.severity != 'error') {
+      // warn and error messages takes precedence over info message until cleared
+      this.message = message;
+      this.severity = 'info';
+    }
   }
 
   warn(message: string) {
-    this.message = message;
-    this.severity = 'warn';
+    if (this.severity != 'error') {
+      // error message takes precedence over warn message until cleared
+      this.message = message;
+      this.severity = 'warn';
+    }
   }
 
   error(message: string, error: any): Observable<any> {
@@ -31,5 +38,15 @@ export class MessageService {
   clear() {
     this.message = null;
     this.severity = 'info';
+    this.navcount = 0;
+  }
+
+  clearOnNav(count: number) {
+    if (this.message != null) {
+      this.navcount++;
+      if (this.navcount > count) {
+        this.clear();
+      }
+    }
   }
 }

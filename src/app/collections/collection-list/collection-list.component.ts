@@ -29,7 +29,10 @@ export class CollectionListComponent implements OnInit {
     );
     this.viewableCollectionsTableDataSource = new MatTableDataSource<CollectionInfo>([]);
     this.collectionService.getViewableMovieCollections().subscribe(
-      collectionInfos => { this.viewableCollectionsTableDataSource.data = collectionInfos; }
+      collectionInfos => {
+        this.viewableCollections = collectionInfos;
+        this.viewableCollectionsTableDataSource.data = collectionInfos;
+      }
     );
 
   }

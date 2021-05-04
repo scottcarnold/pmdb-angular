@@ -20,7 +20,8 @@ import { MatFormFieldDefaultOptions, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@ang
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService,
+    private router: Router) { }
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     const xhr = req.clone({
       headers: req.headers

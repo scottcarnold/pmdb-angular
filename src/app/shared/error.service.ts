@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,8 @@ export class ErrorService {
 
   handleError(msg: string, error: any): Observable<any> {
     console.log(msg + '  Error: ', error);
-    return of([]);
+    return EMPTY;
+    // returning EMPTY will prevent subscribe function from being called as desired for this app;
+    // (returning of([]) would have a different affect)
   }
 }

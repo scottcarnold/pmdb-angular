@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Collection } from '../collection';
 import { CollectionService } from '../collection.service';
 import { AuthService } from '../../auth/auth.service';
+import { MessageService } from '../../shared/message.service';
 
 @Component({
   selector: 'app-new-collection',
@@ -21,7 +22,8 @@ export class NewCollectionComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private router: Router,
     private collectionService: CollectionService,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private messageService: MessageService) { }
 
   ngOnInit(): void {
   }
@@ -32,11 +34,11 @@ export class NewCollectionComponent implements OnInit {
       this.authService.user.name,
       this.collectionForm.get('cloud').value,
       false);
-    console.log('attempting to add movie collection: ', movieCollection)
     this.collectionService.addMovieCollection(movieCollection).subscribe(
-      movieCollection => console.log('added movie collection: ', movieCollection),
-      error => console.log('error occurred: ', error),
-      () => console.log('Completed')
+      movieCollection => {
+        this.messageService.info('Movie collection added.');
+        this.router.navigateByUrl('collections');
+      }
     );
   }
 }
