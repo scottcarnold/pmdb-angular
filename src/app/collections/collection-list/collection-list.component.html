@@ -9,7 +9,7 @@
     </p>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button (click)="openSwitchCollectionDialog()">Change Current Collection</button>
+    <button *ngIf="viewableCollections.length > 1" mat-raised-button (click)="openSwitchCollectionDialog()">Change Current Collection</button>
     <button mat-raised-button (click)="createNewCollection()">Create New Collection</button>
   </mat-card-actions>
 </mat-card>

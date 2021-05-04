@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, catchError } from "rxjs/operators";
 import { Collection, CollectionAdapter } from './collection';
 import { CollectionInfo, CollectionInfoAdapter } from './collection-info';
@@ -36,13 +36,7 @@ export class CollectionService {
   addMovieCollection(movieCollection: Collection): Observable<Collection> {
     return this.http.post(environment.servicesUrl + 'services/collections/new', movieCollection).pipe(
       map((item: any) => this.cAdapter.adapt(item)),
-      catchError(error => this.handleError('Movie collection could not be created.'))
+      catchError(error => this.messageService.error('Movie collection could not be created.', error))
     );
-  }
-
-  private handleError(msg: string): Observable<any> {
-    console.log(msg);
-    this.messageService.error(msg);
-    return of([]);
   }
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.xandercat.pmdba.dto.MovieCollection;
 import org.xandercat.pmdba.dto.MovieCollectionInfo;
+import org.xandercat.pmdba.exception.CollectionSharingException;
 import org.xandercat.pmdba.exception.WebServicesException;
 import org.xandercat.pmdba.service.CollectionService;
 
@@ -45,6 +46,15 @@ public class CollectionController {
 				throw new WebServicesException("Throwing mock WebServicesException.");
 			}
 			collectionService.addMovieCollection(movieCollection, principal.getName());
+			if (!collectionService.getDefaultMovieCollection(principal.getName()).isPresent()) {
+				// user currently has no default/current movie collection; set it to the newly created one
+				try {
+					collectionService.setDefaultMovieCollection(movieCollection.getId(), principal.getName());
+				} catch (CollectionSharingException e) {
+					// this block shouldn't even be reachable, and it's not fatal, so just log the error and continue on
+					LOGGER.error("Unable to set user's default movie collection to the newly created collection.", e);
+				}
+			}
 		} catch (WebServicesException e) {
 			LOGGER.error("Unable to add new collection.", e);
 			throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE);
