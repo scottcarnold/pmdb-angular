@@ -1,1 +1,7 @@
-<div *ngIf="messageService.message" [class]="messageService.severity">{{messageService.message}}</div>
+<div *ngIf="messageService.message" [ngClass]="[messageService.severity, 'flexContainer']">
+  <span class="message">{{messageService.message}}</span>
+  <span class="spacer"></span>
+  <button mat-icon-button aria-label="Dismiss" (click)="closeMessage()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>

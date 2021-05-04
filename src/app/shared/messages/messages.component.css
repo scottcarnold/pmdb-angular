@@ -1,0 +1,26 @@
+.error {
+  background-color: red;
+  color: white;
+}
+
+.warn {
+  background-color: orange;
+  color: white;
+}
+
+.info {
+  background-color: green;
+  color: white;
+}
+
+.flexContainer {
+  display: flex;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.message {
+  padding: 10px;
+}
