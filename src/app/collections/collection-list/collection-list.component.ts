@@ -7,6 +7,8 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { CollectionService } from '../collection.service';
 import { SwitchCollectionComponent } from '../switch-collection/switch-collection.component';
+import { ConfirmComponent } from '../../shared/confirm/confirm.component';
+import { MessageService } from 'src/app/shared/message.service';
 
 @Component({
   selector: 'app-collection-list',
@@ -21,20 +23,25 @@ export class CollectionListComponent implements OnInit {
   columnsToDisplay: string[] = ['name', 'owner', 'cloud', 'publicView', 'action'];
   @ViewChild(MatTable) table: MatTable<any>;
 
-  constructor(private collectionService: CollectionService, private dialog: MatDialog, private router: Router) { }
+  constructor(private collectionService: CollectionService,
+    private messageService: MessageService,
+    private dialog: MatDialog, private router: Router) { }
 
   ngOnInit(): void {
     this.collectionService.getDefaultMovieCollection().subscribe(
       collectionInfo => { this.defaultCollection = collectionInfo; }
     );
     this.viewableCollectionsTableDataSource = new MatTableDataSource<CollectionInfo>([]);
+    this.loadViewableCollections();
+  }
+
+  private loadViewableCollections(): void {
     this.collectionService.getViewableMovieCollections().subscribe(
       collectionInfos => {
         this.viewableCollections = collectionInfos;
         this.viewableCollectionsTableDataSource.data = collectionInfos;
       }
     );
-
   }
 
   openSwitchCollectionDialog(): void {
@@ -44,5 +51,23 @@ export class CollectionListComponent implements OnInit {
 
   createNewCollection(): void {
     this.router.navigateByUrl('newCollection');
+  }
+
+  deleteCollection(collectionInfo: CollectionInfo): void {
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      data: {
+        action: 'Delete',
+        confirmQuestion: 'Are you sure you wish to delete the movie collection "' + collectionInfo.collection.name + '"?' }
+    });
+    dialogRef.afterClosed().subscribe(confirm => {
+      if (confirm) {
+        this.collectionService.deleteMovieCollection(collectionInfo.collection.id).subscribe(
+          () => {
+            this.messageService.info('Movie collection deleted.');
+            this.loadViewableCollections();
+          }
+        )
+      }
+    });
   }
 }

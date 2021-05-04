@@ -38,7 +38,7 @@
         <button mat-raised-button color="primary" [ngClass]="'actionButton'">Sharing</button>
       </ng-container>
       <ng-container *ngIf="collectionInfo.owned">
-        <button mat-raised-button color="warn" [ngClass]="'actionButton'">Delete</button>
+        <button mat-raised-button color="warn" [ngClass]="'actionButton'" (click)="deleteCollection(collectionInfo)">Delete</button>
       </ng-container>
       <ng-container *ngIf="!collectionInfo.owned">
         <button mat-raised-button color="accent" [ngClass]="'actionButton'">Remove</button>

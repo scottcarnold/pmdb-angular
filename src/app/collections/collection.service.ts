@@ -39,4 +39,10 @@ export class CollectionService {
       catchError(error => this.messageService.error('Movie collection could not be created.', error))
     );
   }
+
+  deleteMovieCollection(movieCollectionId: string): Observable<any> {
+    return this.http.post(environment.servicesUrl + 'services/collections/delete', movieCollectionId).pipe(
+      catchError(error => this.messageService.error('Movie collection could not be deleted.', error))
+    );
+  }
 }

@@ -61,4 +61,15 @@ public class CollectionController {
 		}
 		return movieCollection;
 	}
+	
+	@PostMapping("/delete")
+	public void deleteCollection(@RequestBody String movieCollectionId, Principal principal) {
+		try {
+			collectionService.deleteMovieCollection(movieCollectionId, principal.getName());
+		} catch (CollectionSharingException e) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+		} catch (WebServicesException e) {
+			throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE);
+		}
+	}
 }

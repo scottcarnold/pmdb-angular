@@ -33,7 +33,7 @@ export class XhrInterceptor implements HttpInterceptor {
 
   private handleAuthError(err: HttpErrorResponse): Observable<any> {
     // if user is unauthorized for a request, route them to the login page
-    if (err.status == 401 || err.status == 403) {
+    if (err.status == 401) {  // not checking 403 as we are using 403 to indicate insufficient permissions witch isn't a log in issue
       console.log('caught unauthorized error');
       if (this.authService.loginAttempts > 0) {
         this.router.navigate(['/login', this.authService.loginAttempts])

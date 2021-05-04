@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-//import { FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-//import { FormBuilder, Validators } from '@angular/forms';
 import { CollectionInfo } from '../collection-info';
 import { CollectionService } from '../collection.service';
 
