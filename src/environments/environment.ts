@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  servicesUrl: 'http://localhost:8080/pmdb/'
+  servicesUrl: 'http://localhost:8080/pmdb/',
+  collectionsPath: 'services/collections/'
 };
 
 /*

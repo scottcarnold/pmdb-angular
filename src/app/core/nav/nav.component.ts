@@ -1,23 +1,42 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { MessageService } from '../../shared/message.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css']
 })
-export class NavComponent {
+export class NavComponent implements OnInit, OnDestroy {
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches),
       shareReplay()
     );
+  username: string = '';
+  user$: Subscription;
 
-  constructor(private breakpointObserver: BreakpointObserver, private messageService: MessageService) {}
+  constructor(private breakpointObserver: BreakpointObserver,
+    private messageService: MessageService,
+    private authService: AuthService) {  }
+
+  ngOnInit() {
+    this.user$ = this.authService.userEvent.subscribe(user => {
+      if (user === null || user === undefined) {
+        this.username = '';
+      } else {
+        this.username = user.name;
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.user$.unsubscribe();
+  }
 
   clearMessages(): boolean {
     // To be called when navigating via menu to a new page to clear any old messages.
@@ -25,5 +44,10 @@ export class NavComponent {
     // are imperative and will not clear immediately as desired.
     this.messageService.clear();
     return true;
+  }
+
+  logout(): void {
+    console.log('attempting logout');
+    this.authService.logout();
   }
 }
