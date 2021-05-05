@@ -15,10 +15,11 @@ import { CollectionsRoutingModule } from './collections-routing.module';
 import { CollectionListComponent } from './collection-list/collection-list.component';
 import { SwitchCollectionComponent } from './switch-collection/switch-collection.component';
 import { NewCollectionComponent } from './new-collection/new-collection.component';
+import { PublicUrlPipe } from './public-url.pipe';
 
 
 @NgModule({
-  declarations: [CollectionListComponent, SwitchCollectionComponent, NewCollectionComponent],
+  declarations: [CollectionListComponent, SwitchCollectionComponent, NewCollectionComponent, PublicUrlPipe],
   imports: [
     CommonModule,
     CollectionsRoutingModule,

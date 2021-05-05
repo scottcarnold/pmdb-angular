@@ -60,9 +60,6 @@ public class CollectionController {
 	@PostMapping("/new")
 	public MovieCollection newCollection(@RequestBody MovieCollection movieCollection, Principal principal) {
 		try {
-			if (movieCollection.getName() != null && movieCollection.getName().toLowerCase().startsWith("error")) {
-				throw new WebServicesException("Throwing mock WebServicesException.");
-			}
 			collectionService.addMovieCollection(movieCollection, principal.getName());
 			if (!collectionService.getDefaultMovieCollection(principal.getName()).isPresent()) {
 				// user currently has no default/current movie collection; set it to the newly created one

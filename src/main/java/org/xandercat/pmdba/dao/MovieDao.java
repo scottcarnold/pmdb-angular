@@ -22,16 +22,16 @@ public interface MovieDao {
 	public void deleteMoviesForCollection(String collectionId);
 	
 	/**
-	 * Returns set of movies for the movie collection of given id.
+	 * Returns list of movies for the movie collection of given id.
 	 * 
 	 * @param collectionId movie collection id
 	 * 
-	 * @return set of movies for the movie collection
+	 * @return list of movies for the movie collection
 	 */
-	public Set<Movie> getMoviesForCollection(String collectionId);
+	public List<Movie> getMoviesForCollection(String collectionId);
 	
 	/**
-	 * Returns set of movies for the movie collection of given id that match the provided search string.  
+	 * Returns list of movies for the movie collection of given id that match the provided search string.  
 	 * Search is case insensitive and can match title or any attribute value associated with the movie.
 	 * 
 	 * @param collectionId  movie collection id
@@ -39,7 +39,7 @@ public interface MovieDao {
 	 * 
 	 * @return movies in collection matching search string
 	 */
-	public Set<Movie> searchMoviesForCollection(String collectionId, String searchString);
+	public List<Movie> searchMoviesForCollection(String collectionId, String searchString);
 	
 	/**
 	 * Returns movie of given id.

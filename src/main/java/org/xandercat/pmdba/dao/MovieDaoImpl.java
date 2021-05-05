@@ -36,7 +36,7 @@ public class MovieDaoImpl implements MovieDao {
 
 	@Override
 	@Transactional
-	public Set<Movie> getMoviesForCollection(String collectionId) {
+	public List<Movie> getMoviesForCollection(String collectionId) {
 		final String sql = "SELECT movie.id, movie.title, attribute_name, attribute_value FROM movie "
 				+ " LEFT JOIN movie_attributes on movie.id = movie_attributes.movie_id"
 				+ " WHERE movie.collection_id = ? ORDER BY movie.id";
@@ -53,12 +53,12 @@ public class MovieDaoImpl implements MovieDao {
 				movie.addAttribute(rs.getString(3), rs.getString(4));
 			}
 		});
-		return movies.values().stream().collect(Collectors.toSet());
+		return movies.values().stream().collect(Collectors.toList());
 	}	
 	
 	@Override
 	@Transactional
-	public Set<Movie> searchMoviesForCollection(String collectionId, String searchString) {
+	public List<Movie> searchMoviesForCollection(String collectionId, String searchString) {
 		final String lcSearchString = searchString.trim().toLowerCase();
 		final String sql = "SELECT movie.id, movie.title, movie.collection_id FROM movie "
 				+ " LEFT JOIN movie_attributes ON movie.id = movie_attributes.movie_id"
@@ -79,7 +79,7 @@ public class MovieDaoImpl implements MovieDao {
 			movie.setAttributes(getMovieAttributes(movie.getId()));
 			movies.add(movie);
 		});
-		return movies;
+		return movies.stream().collect(Collectors.toList());
 	}
 
 	@Override

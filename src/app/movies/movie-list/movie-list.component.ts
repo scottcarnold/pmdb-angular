@@ -27,9 +27,9 @@ export class MovieListComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.movies = this.movieService.getMoviesForCollection();
+    //this.movies = this.movieService.getMoviesForCollection();
     this.attrNames = ['Rating'];
-    this.moviesTableDataSource = new MatTableDataSource<Movie>(this.movies);
+    this.moviesTableDataSource = new MatTableDataSource<Movie>([]);
   }
 
 }

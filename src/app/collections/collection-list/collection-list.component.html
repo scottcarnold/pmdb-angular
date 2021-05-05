@@ -30,7 +30,7 @@
   </ng-container>
   <ng-container matColumnDef="publicView">
     <th mat-header-cell *matHeaderCellDef [ngClass]="'tcell'">Public URL</th>
-    <td mat-cell *matCellDef="let collectionInfo" [ngClass]="'tcell'">{{collectionInfo.collection.publicView}}</td>
+    <td mat-cell *matCellDef="let collectionInfo" [ngClass]="'tcell'">{{collectionInfo.collection | publicUrl}}</td>
   </ng-container>
   <ng-container matColumnDef="action">
     <th mat-header-cell *matHeaderCellDef [ngClass]="'tcell'">Action</th>
