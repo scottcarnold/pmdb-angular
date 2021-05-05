@@ -26,9 +26,7 @@ export class AuthService {
       authorization: 'Basic ' + btoa(username + ':' + password)
     });
     this.loginAttempts++;
-    console.log('calling authenticate request');
     this.http.get(environment.servicesUrl + 'authenticate', {headers: headers, observe: 'response'}).subscribe(response => {
-      console.log('handling response from authenticate request');
       if (response['body']['name']) {
         this.authenticated = true;
         this.loginAttempts = 0;
@@ -41,7 +39,6 @@ export class AuthService {
         this.user = null;
         console.log('no authenticated user in response: ', response);
       }
-      console.log(`authenticated: ${this.authenticated}`);
       this.userEvent.next(this.user);
       return callback && callback();
     });

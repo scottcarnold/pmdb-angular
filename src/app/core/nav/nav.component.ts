@@ -4,6 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { MessageService } from '../../shared/message.service';
 import { AuthService } from '../../auth/auth.service';
+import { CollectionService } from '../../collections/collection.service';
 
 @Component({
   selector: 'app-nav',
@@ -21,10 +22,12 @@ export class NavComponent implements OnInit, OnDestroy {
   loggedIn: boolean = false;
   admin: boolean = false;
   user$: Subscription;
+  shareOffers: number;
 
   constructor(private breakpointObserver: BreakpointObserver,
     private messageService: MessageService,
-    private authService: AuthService) {  }
+    private authService: AuthService,
+    private collectionService: CollectionService) {  }
 
   ngOnInit() {
     this.user$ = this.authService.userEvent.subscribe(user => {
@@ -32,10 +35,14 @@ export class NavComponent implements OnInit, OnDestroy {
         this.username = '';
         this.loggedIn = false;
         this.admin = false;
+        this.shareOffers = 0;
       } else {
         this.username = user.name;
         this.loggedIn = true;
         this.admin = user.authorities?.includes('ROLE_ADMIN');
+        this.collectionService.getShareOfferMovieCollections().subscribe(collectionInfos => {
+          this.shareOffers = collectionInfos.length;
+        });
       }
     });
   }

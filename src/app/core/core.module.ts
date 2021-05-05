@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatBadgeModule } from '@angular/material/badge';
 import { NavComponent } from './nav/nav.component';
 import { CoreRoutingModule } from './core-routing.module';
 
@@ -24,7 +25,8 @@ import { CoreRoutingModule } from './core-routing.module';
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MatBadgeModule
   ],
   exports: [NavComponent, FooterComponent]
 })

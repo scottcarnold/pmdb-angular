@@ -6,7 +6,8 @@
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
       <a *ngIf="loggedIn" mat-list-item routerLink="/movies" (click)="clearMessages() && (drawer.mode === 'side' || drawer.close())">Home</a>
-      <a *ngIf="loggedIn" mat-list-item routerLink="/collections" (click)="clearMessages() && (drawer.mode === 'side' || drawer.close())">Collections</a>
+      <a *ngIf="loggedIn && shareOffers == 0" mat-list-item routerLink="/collections" (click)="clearMessages() && (drawer.mode === 'side' || drawer.close())">Collections</a>
+      <a *ngIf="loggedIn && shareOffers > 0" mat-list-item routerLink="/collections" (click)="clearMessages() && (drawer.mode === 'side' || drawer.close())"><span [matBadge]="shareOffers">Collections</span></a>
       <a *ngIf="loggedIn" mat-list-item href="#">IMDB Search</a>
       <a *ngIf="loggedIn" mat-list-item href="#">My Account</a>
       <a *ngIf="admin" mat-list-item href="#">User Admin</a>
