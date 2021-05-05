@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CollectionService } from 'src/app/collections/collection.service';
+import { MessageService } from 'src/app/shared/message.service';
 import { AuthService } from '../auth.service';
 
 
@@ -16,23 +17,21 @@ export class LoginComponent implements OnInit {
     username: ['', [Validators.required]],
     password: ['', [Validators.required]]
   });
-  authenticationMessage = '';
 
   constructor(private formBuilder: FormBuilder,
     private authService: AuthService,
     private collectionService: CollectionService,
+    private messageService: MessageService,
     private router: Router,
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    console.log('login component ngOnInit');
     this.route.params.subscribe(params => {
       let attemptCount = params['attemptCount'];
-      console.log(`login retry value: ${attemptCount}`);
       if (attemptCount === undefined) {
-        this.authenticationMessage = '';
+        this.messageService.clear();
       } else {
-        this.authenticationMessage = 'Incorrect username or password';
+        this.messageService.warn('Incorrect username or password.');
       }
     })
   }
@@ -43,7 +42,7 @@ export class LoginComponent implements OnInit {
       this.loginForm.get('password').value,
       () => {
         if (this.authService.authenticated) {
-          this.authenticationMessage = '';
+          this.messageService.clear();
           this.collectionService.getDefaultMovieCollection().subscribe(
             collectionInfo => {
               if (collectionInfo === null || collectionInfo === undefined) {
@@ -54,7 +53,7 @@ export class LoginComponent implements OnInit {
             }
           );
         } else {
-          this.authenticationMessage = 'Incorrect username or password.';
+          this.messageService.warn('Incorrect username or password.');
         }
       });
   }

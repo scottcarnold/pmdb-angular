@@ -5,11 +5,11 @@
       [opened]="false">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item routerLink="/movies" (click)="clearMessages() && (drawer.mode === 'side' || drawer.close())">Home</a>
-      <a mat-list-item routerLink="/collections" (click)="clearMessages() && (drawer.mode === 'side' || drawer.close())">Collections</a>
-      <a mat-list-item href="#">IMDB Search</a>
-      <a mat-list-item href="#">My Account</a>
-      <a mat-list-item href="#">User Admin</a>
+      <a *ngIf="loggedIn" mat-list-item routerLink="/movies" (click)="clearMessages() && (drawer.mode === 'side' || drawer.close())">Home</a>
+      <a *ngIf="loggedIn" mat-list-item routerLink="/collections" (click)="clearMessages() && (drawer.mode === 'side' || drawer.close())">Collections</a>
+      <a *ngIf="loggedIn" mat-list-item href="#">IMDB Search</a>
+      <a *ngIf="loggedIn" mat-list-item href="#">My Account</a>
+      <a *ngIf="admin" mat-list-item href="#">User Admin</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -23,7 +23,7 @@
       </button>
       <span>PMDB</span>
       <span class="spacer"></span>
-      <div *ngIf="username.length > 0">
+      <div *ngIf="loggedIn">
         <span style="padding-left: 10px; padding-right: 10px;">User: {{username}}</span>
         <button mat-button type="button" (click)="logout()">LOGOUT</button>
       </div>

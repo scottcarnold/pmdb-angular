@@ -53,6 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/*.js.map").permitAll()        // Angular resources
 				.antMatchers("/index.html").permitAll()      // Angular resource
 				.antMatchers("/favicon.ico").permitAll()     // Angular resource
+				.antMatchers("/").permitAll()                // root; front-end should direct this as needed
 				.antMatchers("/**").hasRole("USER");
 				
 	}

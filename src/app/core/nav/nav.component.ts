@@ -18,6 +18,8 @@ export class NavComponent implements OnInit, OnDestroy {
       shareReplay()
     );
   username: string = '';
+  loggedIn: boolean = false;
+  admin: boolean = false;
   user$: Subscription;
 
   constructor(private breakpointObserver: BreakpointObserver,
@@ -28,8 +30,12 @@ export class NavComponent implements OnInit, OnDestroy {
     this.user$ = this.authService.userEvent.subscribe(user => {
       if (user === null || user === undefined) {
         this.username = '';
+        this.loggedIn = false;
+        this.admin = false;
       } else {
         this.username = user.name;
+        this.loggedIn = true;
+        this.admin = user.authorities?.includes('ROLE_ADMIN');
       }
     });
   }
