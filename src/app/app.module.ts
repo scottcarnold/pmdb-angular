@@ -23,6 +23,7 @@ export class XhrInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService,
     private router: Router) { }
   intercept(req: HttpRequest<any>, next: HttpHandler) {
+    console.log('intercepting request for auth check');
     const xhr = req.clone({
       headers: req.headers
         .set('X-Requested-With', 'XMLHttpRequest')         // this will prevent the browser login popup since we are using HTTP Basic but with our own separate form
@@ -33,6 +34,7 @@ export class XhrInterceptor implements HttpInterceptor {
 
   private handleAuthError(err: HttpErrorResponse): Observable<any> {
     // if user is unauthorized for a request, route them to the login page
+    console.log('error status: ', err.status);
     if (err.status == 401) {  // not checking 403 as we are using 403 to indicate insufficient permissions witch isn't a log in issue
       console.log('caught unauthorized error');
       if (this.authService.loginAttempts > 0) {

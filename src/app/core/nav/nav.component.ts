@@ -47,7 +47,6 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   logout(): void {
-    console.log('attempting logout');
     this.authService.logout();
   }
 }

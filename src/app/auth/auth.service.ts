@@ -33,12 +33,13 @@ export class AuthService {
         this.authenticated = true;
         this.loginAttempts = 0;
         console.log(response);
-        console.log(response.headers.get('devsessionid'));
         this.xAuthToken = response.headers.get('devsessionid');
-        this.user = { name: response['body']['name'] };
+        this.user = { name: response['body']['name'], authorities: response['body']['authorities'] };
       } else {
         this.authenticated = false;
-        console.log(response);
+        this.xAuthToken = '';
+        this.user = null;
+        console.log('no authenticated user in response: ', response);
       }
       console.log(`authenticated: ${this.authenticated}`);
       this.userEvent.next(this.user);
@@ -47,9 +48,7 @@ export class AuthService {
   }
 
   logout() {
-    console.log('calling logout function on back end');
     this.http.post(environment.servicesUrl + 'logout', {}).subscribe(() => {
-      console.log('executing logout steps on subscribe');
       this.user = null;
       this.authenticated = false;
       this.xAuthToken = '';

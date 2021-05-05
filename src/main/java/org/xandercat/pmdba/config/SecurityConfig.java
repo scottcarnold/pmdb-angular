@@ -38,17 +38,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		LOGGER.info("Configuring HTTP Security...");
+		// Note that we allow through most of the front end URLs; let the front end handle protecting it's own URLs.
+		// We primarily want to protect the back end services here.
 		http
 			.httpBasic()
 			.and().cors()
 			.and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 			.and().authorizeRequests()
-				.antMatchers("/login*").permitAll()
-				.antMatchers("/*.css").permitAll()
-				.antMatchers("/*.js").permitAll()
-				.antMatchers("/*.js.map").permitAll()
-				.antMatchers("/index.html").permitAll()
-				.antMatchers("/favicon.ico").permitAll()
+				.antMatchers("/login*").permitAll()          // login path
+				.antMatchers("/collections*").permitAll()    // front end connections paths
+				.antMatchers("/movies*").permitAll()         // front end movies paths
+				.antMatchers("/*.css").permitAll()           // style sheets
+				.antMatchers("/*.js").permitAll()            // Angular resources
+				.antMatchers("/*.js.map").permitAll()        // Angular resources
+				.antMatchers("/index.html").permitAll()      // Angular resource
+				.antMatchers("/favicon.ico").permitAll()     // Angular resource
 				.antMatchers("/**").hasRole("USER");
 				
 	}
