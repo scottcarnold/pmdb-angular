@@ -22,12 +22,13 @@ export class NavComponent implements OnInit, OnDestroy {
   loggedIn: boolean = false;
   admin: boolean = false;
   user$: Subscription;
+  shareOffers$: Subscription;
   shareOffers: number;
 
   constructor(private breakpointObserver: BreakpointObserver,
     private messageService: MessageService,
     private authService: AuthService,
-    private collectionService: CollectionService) {  }
+    public collectionService: CollectionService) {  }
 
   ngOnInit() {
     this.user$ = this.authService.userEvent.subscribe(user => {
@@ -35,20 +36,20 @@ export class NavComponent implements OnInit, OnDestroy {
         this.username = '';
         this.loggedIn = false;
         this.admin = false;
-        this.shareOffers = 0;
       } else {
         this.username = user.name;
         this.loggedIn = true;
         this.admin = user.authorities?.includes('ROLE_ADMIN');
-        this.collectionService.getShareOfferMovieCollections().subscribe(collectionInfos => {
-          this.shareOffers = collectionInfos.length;
-        });
       }
+    });
+    this.shareOffers$ = this.collectionService.shareOffersChangeEvent.subscribe(offerCount => {
+      this.shareOffers = offerCount;
     });
   }
 
   ngOnDestroy() {
     this.user$.unsubscribe();
+    this.shareOffers$.unsubscribe();
   }
 
   clearMessages(): boolean {

@@ -47,6 +47,7 @@ public class MovieDaoImpl implements MovieDao {
 				movie = new Movie();
 				movie.setId(rs.getString(1));
 				movie.setTitle(rs.getString(2));
+				movie.setCollectionId(collectionId);
 				movies.put(movie.getId(), movie);
 			}
 			if (FormatUtil.isNotBlank(rs.getString(3))) { // for movies with 0 attributes found on left join

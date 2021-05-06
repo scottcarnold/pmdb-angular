@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, catchError } from "rxjs/operators";
 import { Movie, MovieAdapter } from './movie';
@@ -17,10 +17,11 @@ export class MovieService {
     this.moviesUrl = environment.servicesUrl + environment.moviesPath;
   }
 
-  getMoviesForCollection(): Observable<Movie[]> {
-    return this.http.get(this.moviesUrl + 'allMovies').pipe(
+  getMoviesForCollection(collectionId: string): Observable<Movie[]> {
+    return this.http.get(this.moviesUrl + 'allMovies',
+      {params: new HttpParams().append('collectionId', collectionId)}).pipe(
       map((data: any[]) => data.map((item) => this.adapter.adapt(item))),
-      catchError(error => this.messageService.error('Unable to change movie collections.', error))
+      catchError(error => this.messageService.error('Unable to load movies for collection.', error))
     );
   }
 }

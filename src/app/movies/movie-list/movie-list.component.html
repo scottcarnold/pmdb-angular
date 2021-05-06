@@ -1,7 +1,19 @@
 <!--<ul *ngFor="let movie of movies">
   <li>{{movie.id}} : {{movie.name}}</li>
 </ul>-->
-
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{defaultCollectionInfo?.collection.name}}</mat-card-title>
+    <mat-card-subtitle>Current Movie Collection</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+  </mat-card-content>
+  <mat-card-actions>
+    <mat-form-field>
+      <input matInput name="search">
+    </mat-form-field><mat-icon>search</mat-icon>
+  </mat-card-actions>
+</mat-card>
 <table mat-table [dataSource]="moviesTableDataSource" matSort>
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>

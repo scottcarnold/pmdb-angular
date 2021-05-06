@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { User }  from './user';
 import { Subject } from 'rxjs';
-import { finalize } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 @Injectable({
