@@ -39,4 +39,17 @@ public class MovieController {
 			throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE);			
 		}
 	}
+	
+	@GetMapping("/searchMovies")
+	public List<Movie> searchMovies(@RequestParam String collectionId, @RequestParam String searchFor, Principal principal) {
+		try {
+			return movieService.searchMoviesForCollection(collectionId, searchFor, principal.getName());
+		} catch (CollectionSharingException e) {
+			LOGGER.error("Unable to search movies for collection.", e);
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+		} catch (WebServicesException e) {
+			LOGGER.error("Unable to search movies for collection.", e);
+			throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE);	
+		}
+	}
 }

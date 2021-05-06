@@ -54,7 +54,7 @@ public class MovieDaoImpl implements MovieDao {
 				movie.addAttribute(rs.getString(3), rs.getString(4));
 			}
 		});
-		return movies.values().stream().collect(Collectors.toList());
+		return movies.values().stream().sorted(new MovieTitleComparator()).collect(Collectors.toList());
 	}	
 	
 	@Override
@@ -80,7 +80,7 @@ public class MovieDaoImpl implements MovieDao {
 			movie.setAttributes(getMovieAttributes(movie.getId()));
 			movies.add(movie);
 		});
-		return movies.stream().collect(Collectors.toList());
+		return movies.stream().sorted(new MovieTitleComparator()).collect(Collectors.toList());
 	}
 
 	@Override

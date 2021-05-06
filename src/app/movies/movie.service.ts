@@ -24,4 +24,12 @@ export class MovieService {
       catchError(error => this.messageService.error('Unable to load movies for collection.', error))
     );
   }
+
+  searchMoviesForCollection(collectionId: string, searchFor: string): Observable<Movie[]> {
+    return this.http.get(this.moviesUrl + 'searchMovies',
+      {params: new HttpParams().append('collectionId', collectionId).append('searchFor', searchFor)}).pipe(
+      map((data: any[]) => data.map((item) => this.adapter.adapt(item))),
+      catchError(error => this.messageService.error('Unable to search movies for collection.', error))
+    );
+  }
 }
