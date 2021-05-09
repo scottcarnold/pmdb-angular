@@ -39,7 +39,10 @@ export class MovieListComponent implements OnInit, AfterViewInit {
         return item.name;
       }
       if (this.movieService.isNumberAttribute(property)) {
-        return this.movieService.numberAttribute(item.attributes.get(property))
+        return this.movieService.numberAttributeSortValue(item.attributes.get(property));
+      }
+      if (this.movieService.isDateAttribute(property)) {
+        return this.movieService.dateAttributeSortValue(item.attributes.get(property));
       }
       // treat anything else as string
       return item.attributes.get(property);

@@ -28,7 +28,7 @@ export class MovieService {
     [ImdbAttributeKey.LANGUAGE, AttributeType.STRING],
     [ImdbAttributeKey.METASCORE, AttributeType.NUMBER],
     [ImdbAttributeKey.POSTER, AttributeType.STRING],
-    [ImdbAttributeKey.RELEASED, AttributeType.STRING],
+    [ImdbAttributeKey.RELEASED, AttributeType.DATE],
     [ImdbAttributeKey.RUNTIME, AttributeType.STRING],
     [ImdbAttributeKey.TYPE, AttributeType.STRING],
     [ImdbAttributeKey.COUNTRY, AttributeType.STRING]
@@ -63,10 +63,22 @@ export class MovieService {
     return (attributeType === AttributeType.NUMBER);
   }
 
-  numberAttribute(value: string): number {
+  isDateAttribute(attributeKey: string): boolean {
+    let attributeType = this.attributeTypeMap.get(attributeKey);
+    return (attributeType === AttributeType.DATE);
+  }
+
+  numberAttributeSortValue(value: string): number {
     if (value === undefined || value === null) {
       return 0;
     }
     return +value;
+  }
+
+  dateAttributeSortValue(value: string): number {
+    if (value === undefined || value === null) {
+      return 0;
+    }
+    return new Date(value).getTime();
   }
 }
