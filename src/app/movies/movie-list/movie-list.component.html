@@ -14,11 +14,11 @@
         <input matInput formControlName="search">
       </mat-form-field><button mat-icon-button type="submit"><mat-icon>search</mat-icon></button>
       <div style="display: inline-block; text-align: center;">
-          <span style="color: grey">ADD MOVIE</span><br/>
-          <div style="border-top: 1px solid grey; padding-top: 5px">
-            <button mat-raised-button>From IMDB</button>
-            <button mat-raised-button>Manual Entry</button>
-          </div>
+        <span style="color: grey">ADD MOVIE</span><br/>
+        <div style="border-top: 1px solid grey; padding-top: 5px">
+          <button mat-raised-button>From IMDB</button>
+          <button mat-raised-button>Manual Entry</button>
+        </div>
       </div>
       <button mat-raised-button>Configure Columns</button>
     </form>
@@ -31,7 +31,7 @@
   </ng-container>
   <ng-container *ngFor="let attrName of attrNames">
     <ng-container [matColumnDef]="attrName"> <!-- note since using variable reference, we have brackets around matColumnDef -->
-      <th mat-header-cell *matHeaderCellDef>{{attrName}}</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{attrName}}</th>
       <td mat-cell *matCellDef="let movie">{{movie.attributes.get(attrName)}}</td>
     </ng-container>
   </ng-container>

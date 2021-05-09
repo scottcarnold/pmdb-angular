@@ -21,7 +21,7 @@ export class MovieListComponent implements OnInit, AfterViewInit {
   moviesTableDataSource: MatTableDataSource<Movie>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  columnsToDisplay: string[] = ['name', 'Imdb Rating'];
+  columnsToDisplay: string[] = ['name', 'Imdb Rating', 'Actors'];
   defaultCollectionInfo: CollectionInfo;
   movieSearchForm = this.formBuilder.group({
     search: ['', []]
@@ -34,11 +34,21 @@ export class MovieListComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.moviesTableDataSource.paginator = this.paginator;
+    this.moviesTableDataSource.sortingDataAccessor = (item, property) => {
+      if (property === 'name') {
+        return item.name;
+      }
+      if (this.movieService.isNumberAttribute(property)) {
+        return this.movieService.numberAttribute(item.attributes.get(property))
+      }
+      // treat anything else as string
+      return item.attributes.get(property);
+    }
     this.moviesTableDataSource.sort = this.sort;
   }
 
   ngOnInit(): void {
-    this.attrNames = ['Imdb Rating'];
+    this.attrNames = ['Imdb Rating', 'Actors'];
     this.moviesTableDataSource = new MatTableDataSource<Movie>([]);
     this.collectionService.getDefaultMovieCollection().subscribe(collectionInfo => {
       this.defaultCollectionInfo = collectionInfo;
@@ -55,7 +65,7 @@ export class MovieListComponent implements OnInit, AfterViewInit {
       this.movies = null;
       this.moviesTableDataSource.data = [];
     } else {
-      this.movieService.getMoviesForCollection(this.defaultCollectionInfo.collection.id).subscribe(movies => {
+        this.movieService.getMoviesForCollection(this.defaultCollectionInfo.collection.id).subscribe(movies => {
         this.movies = movies;
         this.moviesTableDataSource.data = movies;
       });
