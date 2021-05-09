@@ -1,3 +1,4 @@
+
 <h1 *ngIf="movieForm.get('id').value===''">Add New Movie</h1>
 <h1 *ngIf="movieForm.get('id').value != ''">Edit Movie</h1>
 <form [formGroup]="movieForm" (ngSubmit)="onSubmit()">
@@ -10,19 +11,24 @@
         <ng-container [formGroupName]="idx">
           <mat-grid-tile>
             <app-form-field label="Attribute Name" [control]="attribute.get('key')" class="fullWidth">
-              <input matInput formControlName="key"/>
+              <input matInput formControlName="key" [matAutocomplete]="attributeKeysAutocomplete"/>
+              <mat-autocomplete #attributeKeysAutocomplete="matAutocomplete">
+                <mat-option *ngFor="let attributeKey of attributeKeys" [value]="attributeKey">
+                  {{attributeKey}}
+                </mat-option>
+              </mat-autocomplete>
             </app-form-field>
           </mat-grid-tile>
           <mat-grid-tile>
             <app-form-field label="Attribute Value" [control]="attribute.get('value')" class="fullWidth">
               <input matInput formControlName="value"/>
             </app-form-field>
-            <button mat-raised-button (click)="removeAttribute(idx)">X</button>
+            <button type="button" mat-raised-button (click)="removeAttribute(idx)">X</button>
           </mat-grid-tile>
         </ng-container>
       </ng-container>
     </ng-container>
   </mat-grid-list>
-  <button mat-raised-button (click)="addAttribute()">Add Attribute</button>
+  <button type="button" mat-raised-button (click)="addAttribute()">Add Attribute</button>
   <button mat-raised-button color="primary" type="submit" [disabled]="!movieForm.valid">Save</button>
 </form>

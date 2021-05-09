@@ -29,11 +29,15 @@ export class CollectionService {
     this.defaultCollectionChangeEvent = new Subject<CollectionInfo>();
     this.shareOffersChangeEvent = new Subject<number>();
     this.user$ = this.authService.userEvent.subscribe(user => {
+      console.log('user change: ', user);
       if (user != null && user != undefined) {
         this.getShareOfferMovieCollections().subscribe(collectionInfos => {
           this.shareOffers = collectionInfos.length;
           this.shareOffersChangeEvent.next(this.shareOffers);
-        })
+        });
+        this.getDefaultMovieCollection().subscribe(collectionInfo => {
+          this.defaultCollectionChangeEvent.next(collectionInfo);
+        });
       }
     });
   }

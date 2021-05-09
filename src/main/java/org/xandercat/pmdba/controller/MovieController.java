@@ -52,4 +52,17 @@ public class MovieController {
 			throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE);	
 		}
 	}
+	
+	@GetMapping("/attributeKeys")
+	public List<String> attributeKeysForCollection(@RequestParam String collectionId, Principal principal) {
+		try {
+			return movieService.getAttributeKeysForCollection(collectionId, principal.getName());
+		} catch (CollectionSharingException e) {
+			LOGGER.error("Unable to lookup attribute keys for collection.", e);
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+		} catch (WebServicesException e) {
+			LOGGER.error("Unable to lookup attribute keys for collection.", e);
+			throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE);	
+		}
+	}
 }

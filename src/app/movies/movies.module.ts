@@ -12,6 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { EditMovieComponent } from './edit-movie/edit-movie.component';
 import { SharedModule } from '../shared/shared.module';
 
@@ -30,6 +31,7 @@ import { SharedModule } from '../shared/shared.module';
     MatFormFieldModule,
     MatInputModule,
     MatGridListModule,
+    MatAutocompleteModule,
     ReactiveFormsModule,
     SharedModule
   ]
