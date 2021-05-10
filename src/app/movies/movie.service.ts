@@ -55,9 +55,17 @@ export class MovieService {
   }
 
   getAttributeKeysForCollection(collectionId: string): Observable<string[]> {
-    return this.http.get(this.moviesUrl + "attributeKeys",
+    return this.http.get(this.moviesUrl + 'attributeKeys',
     {params: new HttpParams().append('collectionId', collectionId)}).pipe(
       catchError(error => this.messageService.error('Unable to lookup attribute keys for collection.', error))
+    )
+  }
+
+  getMovie(movieId: string): Observable<Movie> {
+    return this.http.get(this.moviesUrl + 'getMovie',
+    {params: new HttpParams().append('movieId', movieId)}).pipe(
+      map((item: any) => this.adapter.adapt(item)),
+      catchError(error => this.messageService.error('Unable to get the requested movie.', error))
     )
   }
 

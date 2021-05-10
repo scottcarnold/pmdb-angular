@@ -15,10 +15,11 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { EditMovieComponent } from './edit-movie/edit-movie.component';
 import { SharedModule } from '../shared/shared.module';
+import { MovieDetailComponent } from './movie-detail/movie-detail.component';
 
 
 @NgModule({
-  declarations: [MovieListComponent, EditMovieComponent],
+  declarations: [MovieListComponent, EditMovieComponent, MovieDetailComponent],
   imports: [
     CommonModule,
     MoviesRoutingModule,

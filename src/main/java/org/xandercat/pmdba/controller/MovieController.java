@@ -2,13 +2,13 @@ package org.xandercat.pmdba.controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,6 +63,24 @@ public class MovieController {
 		} catch (WebServicesException e) {
 			LOGGER.error("Unable to lookup attribute keys for collection.", e);
 			throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE);	
+		}
+	}
+	
+	@GetMapping("/getMovie")
+	public Movie getMovie(@RequestParam String movieId, Principal principal) {
+		try {
+			Optional<Movie> movie = movieService.getMovie(movieId, principal.getName());
+			if (movie.isPresent()) {
+				return movie.get();
+			} else {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+			}
+		} catch (CollectionSharingException e) {
+			LOGGER.error("Unable to get movie.", e);
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+		} catch (WebServicesException e) {
+			LOGGER.error("Unable to get movie.", e);
+			throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE);
 		}
 	}
 }

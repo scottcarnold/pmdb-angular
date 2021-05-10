@@ -19,7 +19,8 @@ export class EditMovieComponent implements OnInit, OnDestroy {
     collectionId: [''],
     attributes: this.attributesArray
   });
-  attributeKeys: string[] = ['one', 'two'];
+  attributeKeys: string[] = [];
+  unusedAttributeKeys: string[] = [];
   defaultCollection$: Subscription;
 
   constructor(private formBuilder: FormBuilder,
@@ -45,14 +46,30 @@ export class EditMovieComponent implements OnInit, OnDestroy {
   private updateForDefaultCollection(collectionInfo: CollectionInfo) {
     if (collectionInfo === null || collectionInfo === undefined) {
       this.attributeKeys = [];
+      this.unusedAttributeKeys = [];
     } else {
       this.movieService.getAttributeKeysForCollection(collectionInfo.collection.id).subscribe(attributeKeys => {
         this.attributeKeys = attributeKeys;
+        this.updateUnusedAttributeKeys();
       });
     }
   }
 
+  private updateUnusedAttributeKeys() {
+    this.unusedAttributeKeys = [];
+    let usedAttributeKeys = new Set();
+    this.attributesArray.controls.forEach(element => {
+      usedAttributeKeys.add(element.get('key').value);
+    });
+    this.attributeKeys.forEach(key => {
+      if (!usedAttributeKeys.has(key)) {
+        this.unusedAttributeKeys.push(key);
+      }
+    });
+  }
+
   addAttribute(): void {
+    this.updateUnusedAttributeKeys();
     let newAttribute = this.formBuilder.group({
       key: ['', [Validators.required, Validators.maxLength(50), Validators.pattern('^[a-zA-Z0-9 ]*$')]],
       value: ['', [Validators.maxLength(400)]]
@@ -62,6 +79,7 @@ export class EditMovieComponent implements OnInit, OnDestroy {
 
   removeAttribute(idx: number): void {
     this.attributesArray.removeAt(idx);
+    this.updateUnusedAttributeKeys();
   }
 
   onSubmit() {

@@ -13,7 +13,7 @@
             <app-form-field label="Attribute Name" [control]="attribute.get('key')" class="fullWidth">
               <input matInput formControlName="key" [matAutocomplete]="attributeKeysAutocomplete"/>
               <mat-autocomplete #attributeKeysAutocomplete="matAutocomplete">
-                <mat-option *ngFor="let attributeKey of attributeKeys" [value]="attributeKey">
+                <mat-option *ngFor="let attributeKey of unusedAttributeKeys" [value]="attributeKey">
                   {{attributeKey}}
                 </mat-option>
               </mat-autocomplete>
