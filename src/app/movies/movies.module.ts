@@ -11,8 +11,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { EditMovieComponent } from './edit-movie/edit-movie.component';
 import { SharedModule } from '../shared/shared.module';
 import { MovieDetailComponent } from './movie-detail/movie-detail.component';
@@ -33,6 +34,7 @@ import { MovieDetailComponent } from './movie-detail/movie-detail.component';
     MatInputModule,
     MatGridListModule,
     MatAutocompleteModule,
+    MatProgressSpinnerModule,
     ReactiveFormsModule,
     SharedModule
   ]

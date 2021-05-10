@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router'
 import { MovieService } from '../movie.service';
 import { CollectionService } from '../../collections/collection.service';
 import { CollectionInfo } from '../../collections/collection-info';
@@ -22,12 +23,21 @@ export class EditMovieComponent implements OnInit, OnDestroy {
   attributeKeys: string[] = [];
   unusedAttributeKeys: string[] = [];
   defaultCollection$: Subscription;
+  loading: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
     private movieService: MovieService,
-    private collectionService: CollectionService) { }
+    private collectionService: CollectionService,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      let movieId = params.get('id');
+      if (movieId != null && movieId != undefined) {
+        this.loadMovie(movieId);
+      }
+    });
+
     // to catch default collection changes...
     this.defaultCollection$ = this.collectionService.defaultCollectionChangeEvent.subscribe(collectionInfo => {
       this.updateForDefaultCollection(collectionInfo);
@@ -68,11 +78,28 @@ export class EditMovieComponent implements OnInit, OnDestroy {
     });
   }
 
-  addAttribute(): void {
+  private loadMovie(movieId: string) {
+    this.loading = true;
+    this.movieService.getMovie(movieId).subscribe(movie => {
+      this.movieForm.patchValue(movie);
+      this.attributesArray.clear();
+      movie.attributes.forEach((value, key) => {
+        this.addAttribute(key, value);
+      });
+      this.updateUnusedAttributeKeys();
+      this.loading = false;
+    });
+  }
+
+  addNewAttribute(): void {
     this.updateUnusedAttributeKeys();
+    this.addAttribute('', '');
+  }
+
+  private addAttribute(key: string, value: string): void {
     let newAttribute = this.formBuilder.group({
-      key: ['', [Validators.required, Validators.maxLength(50), Validators.pattern('^[a-zA-Z0-9 ]*$')]],
-      value: ['', [Validators.maxLength(400)]]
+      key: [key, [Validators.required, Validators.maxLength(50), Validators.pattern('^[a-zA-Z0-9 ]*$')]],
+      value: [value, [Validators.maxLength(400)]]
     });
     this.attributesArray.push(newAttribute);
   }

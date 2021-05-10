@@ -8,6 +8,7 @@ import { MovieDetailComponent } from './movie-detail/movie-detail.component';
 const routes: Routes = [
   { path: 'movies', component: MovieListComponent, canActivate: [AuthGuard] },
   { path: 'addMovie', component: EditMovieComponent, canActivate: [AuthGuard] },
+  { path: 'editMovie/:id', component: EditMovieComponent, canActivate: [AuthGuard] },
   { path: 'movieDetail/:id', component: MovieDetailComponent, canActivate: [AuthGuard] }
 ];
 

@@ -1,11 +1,12 @@
 
-<h1 *ngIf="movieForm.get('id').value===''">Add New Movie</h1>
-<h1 *ngIf="movieForm.get('id').value != ''">Edit Movie</h1>
+<h1 *ngIf="!loading && movieForm.get('id').value===''">Add New Movie</h1>
+<h1 *ngIf="!loading && movieForm.get('id').value != ''">Edit Movie</h1>
+<h1 *ngIf="loading"><mat-spinner></mat-spinner></h1>
 <form [formGroup]="movieForm" (ngSubmit)="onSubmit()">
   <app-form-field label="Movie Title" [control]="movieForm.get('name')" class="fullWidth">
     <input matInput formControlName="name"/>
   </app-form-field>
-  <mat-grid-list cols="2" rowHeight="90px">
+  <mat-grid-list cols="3" rowHeight="80px">
     <ng-container formArrayName="attributes">
       <ng-container *ngFor="let attribute of attributesArray.controls; index as idx">
         <ng-container [formGroupName]="idx">
@@ -19,16 +20,19 @@
               </mat-autocomplete>
             </app-form-field>
           </mat-grid-tile>
-          <mat-grid-tile>
+          <mat-grid-tile colspan="2">
             <app-form-field label="Attribute Value" [control]="attribute.get('value')" class="fullWidth">
               <input matInput formControlName="value"/>
             </app-form-field>
-            <button type="button" mat-raised-button (click)="removeAttribute(idx)">X</button>
+            <button type="button" mat-icon-button color="warn" (click)="removeAttribute(idx)" aria-label="Delete Attribute">
+              <mat-icon>close</mat-icon>
+            </button>
           </mat-grid-tile>
         </ng-container>
       </ng-container>
     </ng-container>
   </mat-grid-list>
-  <button type="button" mat-raised-button (click)="addAttribute()">Add Attribute</button>
+  <button type="button" mat-raised-button (click)="addNewAttribute()">Add Attribute</button>
+  <button mat-raised-button type="button" [routerLink]="['/movieDetail', movieForm.get('id').value]">Cancel</button>
   <button mat-raised-button color="primary" type="submit" [disabled]="!movieForm.valid">Save</button>
 </form>
