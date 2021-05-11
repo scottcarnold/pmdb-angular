@@ -1,5 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { FormBuilder, Validators } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterTestingModule } from '@angular/router/testing';
 import { NewCollectionComponent } from './new-collection.component';
 
 describe('NewCollectionComponent', () => {
@@ -8,7 +10,9 @@ describe('NewCollectionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewCollectionComponent ]
+      imports: [ HttpClientModule, RouterTestingModule ],
+      declarations: [ NewCollectionComponent ],
+      providers: [ FormBuilder ]
     })
     .compileComponents();
   }));

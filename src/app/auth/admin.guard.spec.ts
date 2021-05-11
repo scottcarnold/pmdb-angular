@@ -1,12 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-
+import { HttpClientModule } from '@angular/common/http';
+import { RouterTestingModule } from '@angular/router/testing';
 import { AdminGuard } from './admin.guard';
 
 describe('AdminGuard', () => {
   let guard: AdminGuard;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [HttpClientModule, RouterTestingModule]
+    });
     guard = TestBed.inject(AdminGuard);
   });
 
