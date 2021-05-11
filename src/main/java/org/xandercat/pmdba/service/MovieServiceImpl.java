@@ -136,6 +136,13 @@ public class MovieServiceImpl implements MovieService {
 
 	@Override
 	public void updateMovie(Movie movie, String callingUsername) throws CollectionSharingException, WebServicesException {
+		Optional<Movie> oldMovie = getMovie(movie.getId(), callingUsername);
+		if (!oldMovie.isPresent()) {
+			throw new CollectionSharingException("Movie of given ID does not exist and cannot be updated.");
+		}
+		if (!oldMovie.get().getCollectionId().equals(movie.getCollectionId())) {
+			throw new CollectionSharingException("Changing movie collection ID is not allowed.");
+		}
 		MovieCollectionInfo movieCollection = collectionService.assertCollectionEditable(movie.getCollectionId(), callingUsername);
 		assertCloudReady(movieCollection);
 		if (movieCollection.getMovieCollection().isCloud()) {

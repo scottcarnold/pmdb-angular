@@ -31,4 +31,8 @@ export class CollectionInfoAdapter implements Adapter<CollectionInfo> {
       return new CollectionInfo(collection, item.editable, item.owned);
     }
   }
+
+  format(collectionInfo: CollectionInfo): any {
+    return collectionInfo; // format is the same; can just return same object
+  }
 }

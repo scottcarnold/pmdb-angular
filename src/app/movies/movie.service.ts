@@ -69,6 +69,19 @@ export class MovieService {
     )
   }
 
+  addMovie(movie: Movie): Observable<Movie> {
+    return this.http.post(this.moviesUrl + 'addMovie', this.adapter.format(movie)).pipe(
+      map((item: any) => this.adapter.adapt(item)),
+      catchError(error => this.messageService.error('Movie could not be added.', error))
+    )
+  }
+
+  updateMovie(movie: Movie): Observable<boolean> {
+    return this.http.post<boolean>(this.moviesUrl + 'updateMovie', this.adapter.format(movie)).pipe(
+      catchError(error => this.messageService.error('Movie could not be updated.', error))
+    );
+  }
+
   registerAttributeType(attributeKey: string, attributeType: AttributeType) {
     this.attributeTypeMap.set(attributeKey, attributeType);
   }

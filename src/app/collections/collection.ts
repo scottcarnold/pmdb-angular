@@ -36,4 +36,8 @@ export class CollectionAdapter implements Adapter<Collection> {
       return new Collection(item.id, item.name, item.owner, item.cloud, item.publicView);
     }
   }
+
+  format(collection: Collection): any {
+    return collection;   // layout is identical; can just return the original object
+  }
 }

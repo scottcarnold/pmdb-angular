@@ -1,10 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router'
+import { Router, ActivatedRoute } from '@angular/router'
+import { Subscription } from 'rxjs';
 import { MovieService } from '../movie.service';
 import { CollectionService } from '../../collections/collection.service';
 import { CollectionInfo } from '../../collections/collection-info';
-import { Subscription } from 'rxjs';
+import { Movie } from '../movie';
+import { MessageService } from 'src/app/shared/message.service';
 
 @Component({
   selector: 'app-edit-movie',
@@ -28,7 +30,9 @@ export class EditMovieComponent implements OnInit, OnDestroy {
   constructor(private formBuilder: FormBuilder,
     private movieService: MovieService,
     private collectionService: CollectionService,
-    private route: ActivatedRoute) { }
+    private messageService: MessageService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -51,6 +55,19 @@ export class EditMovieComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.defaultCollection$.unsubscribe();
+  }
+
+  private formToMovie(): Movie {
+    let attributes: Map<string, string> = new Map();
+    this.attributesArray.controls.forEach(element => {
+      attributes.set(element.get('key').value, element.get('value').value);
+    });
+    return new Movie(
+      this.movieForm.get('id').value,
+      this.movieForm.get('name').value,
+      this.movieForm.get('collectionId').value,
+      attributes
+    );
   }
 
   private updateForDefaultCollection(collectionInfo: CollectionInfo) {
@@ -110,6 +127,17 @@ export class EditMovieComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log('form: ', this.movieForm);
+    let movie = this.formToMovie();
+    if (movie.id === null || movie.id === undefined || movie.id.length === 0) {
+      this.movieService.addMovie(movie).subscribe(movie => {
+        this.messageService.info('Movie added to collection.');
+        this.router.navigateByUrl('/movies');
+      });
+    } else {
+      this.movieService.updateMovie(movie).subscribe(success => {
+        this.messageService.info('Movie saved.');
+        this.router.navigate(['/movieDetail/', movie.id]);
+      });
+    }
   }
 }

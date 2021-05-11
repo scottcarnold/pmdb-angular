@@ -30,4 +30,17 @@ export class MovieAdapter implements Adapter<Movie> {
       return new Movie(item.id, item.title, item.collectionId, attrs);
     }
   }
+
+  format(movie: Movie): any {
+    const convertedAttributes = {};
+    movie.attributes.forEach((val: string, key: string) => {
+      convertedAttributes[key] = val;
+    });
+    return {
+      id: movie.id,
+      title: movie.name,
+      collectionId: movie.collectionId,
+      attributes: convertedAttributes
+    }
+  }
 }
