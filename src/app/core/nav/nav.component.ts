@@ -48,8 +48,12 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.user$.unsubscribe();
-    this.shareOffers$.unsubscribe();
+    if (this.user$) {
+      this.user$.unsubscribe();
+    }
+    if (this.shareOffers$) {
+      this.shareOffers$.unsubscribe();
+    }
   }
 
   clearMessages(): boolean {
