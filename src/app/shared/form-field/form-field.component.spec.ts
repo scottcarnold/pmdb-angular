@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { FormFieldComponent } from './form-field.component';
+import { ValidationDirective } from '../validation.directive';
 
 describe('FormFieldComponent', () => {
   let component: FormFieldComponent;
@@ -8,7 +10,8 @@ describe('FormFieldComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FormFieldComponent ]
+      imports: [ MatFormFieldModule, MatInputModule ],
+      declarations: [ FormFieldComponent, ValidationDirective ]
     })
     .compileComponents();
   }));

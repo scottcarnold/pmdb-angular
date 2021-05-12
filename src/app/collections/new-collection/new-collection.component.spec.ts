@@ -3,6 +3,11 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NewCollectionComponent } from './new-collection.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { SharedModule } from '../../shared/shared.module';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('NewCollectionComponent', () => {
   let component: NewCollectionComponent;
@@ -10,7 +15,15 @@ describe('NewCollectionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientModule, RouterTestingModule ],
+      imports: [
+        HttpClientModule,
+        RouterTestingModule,
+        ReactiveFormsModule,
+        MatCheckboxModule,
+        MatInputModule,
+        SharedModule,
+        BrowserAnimationsModule
+      ],
       declarations: [ NewCollectionComponent ],
       providers: [ FormBuilder ]
     })

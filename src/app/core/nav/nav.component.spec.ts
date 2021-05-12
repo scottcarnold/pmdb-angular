@@ -9,6 +9,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NavComponent } from './nav.component';
+import { MockProvider } from 'ng-mocks';
+import { EMPTY, Subject } from 'rxjs';
+import { AuthService } from '../../auth/auth.service';
+import { CollectionService } from '../../collections/collection.service';
+import { User } from 'src/app/auth/user';
 
 describe('NavComponent', () => {
   let component: NavComponent;
@@ -27,6 +32,16 @@ describe('NavComponent', () => {
         MatToolbarModule,
         HttpClientModule,
         RouterTestingModule
+      ],
+      providers: [
+        MockProvider(AuthService, {
+          userEvent: new Subject<User>()
+        }),
+        MockProvider(CollectionService, {
+          getDefaultMovieCollection: () => EMPTY,
+          getViewableMovieCollections: () => EMPTY,
+          shareOffersChangeEvent: new Subject<number>()
+        })
       ]
     }).compileComponents();
   }));
