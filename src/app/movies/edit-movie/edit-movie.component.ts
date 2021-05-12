@@ -74,11 +74,13 @@ export class EditMovieComponent implements OnInit, OnDestroy {
     if (collectionInfo === null || collectionInfo === undefined) {
       this.attributeKeys = [];
       this.unusedAttributeKeys = [];
+      this.movieForm.get('collectionId').setValue('');
     } else {
       this.movieService.getAttributeKeysForCollection(collectionInfo.collection.id).subscribe(attributeKeys => {
         this.attributeKeys = attributeKeys;
         this.updateUnusedAttributeKeys();
       });
+      this.movieForm.get('collectionId').setValue(collectionInfo.collection.id);
     }
   }
 

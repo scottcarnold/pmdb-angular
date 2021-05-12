@@ -114,4 +114,17 @@ public class MovieController {
 		}
 		return true;
 	}
+	
+	@PostMapping("/deleteMovie")
+	public void deleteMovie(@RequestBody String movieId, Principal principal) {
+		try {
+			movieService.deleteMovie(movieId, principal.getName());
+		} catch (CollectionSharingException e) {
+			LOGGER.error("Unable to delete movie.", e);
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+		} catch (WebServicesException e) {
+			LOGGER.error("Unable to delete movie.", e);
+			throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE);
+		}
+	}
 }

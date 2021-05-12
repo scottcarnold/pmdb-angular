@@ -1,6 +1,7 @@
 <h1>{{movie?.name}}</h1>
 <button mat-mini-fab type="button" color="primary" routerLink="/movies"><mat-icon>arrow_back</mat-icon></button>
-<button mat-raised-button type="button" [routerLink]="['/editMovie', movie?.id]">Edit</button>
+<button *ngIf="collectionInfo?.editable" mat-raised-button type="button" [routerLink]="['/editMovie', movie?.id]">Edit</button>
+<button *ngIf="collectionInfo?.editable" mat-raised-button type="button" color="warn" (click)="deleteMovie()">Delete</button>
 <mat-grid-list cols="4" rowHeight="40px">
   <ng-container *ngFor="let attribute of movie?.attributes | keyvalue">
     <mat-grid-tile>

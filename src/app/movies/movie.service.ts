@@ -82,6 +82,12 @@ export class MovieService {
     );
   }
 
+  deleteMovie(movieId: string): Observable<any> {
+    return this.http.post(this.moviesUrl + 'deleteMovie', movieId).pipe(
+      catchError(error => this.messageService.error('Movie could not be deleted.', error))
+    );
+  }
+
   registerAttributeType(attributeKey: string, attributeType: AttributeType) {
     this.attributeTypeMap.set(attributeKey, attributeType);
   }

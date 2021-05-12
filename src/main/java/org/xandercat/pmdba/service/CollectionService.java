@@ -40,7 +40,7 @@ public interface CollectionService {
 	
 	/**
 	 * Returns the viewable movie collection of given id for the given user.  The user must be able to at least view the movie
-	 * or a CollectionSharingException will be thrown.
+	 * collection or a CollectionSharingException will be thrown.
 	 * 
 	 * @param collectionId     id of movie collection
 	 * @param callingUsername  user making the call
