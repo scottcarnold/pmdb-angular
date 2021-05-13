@@ -2,7 +2,6 @@ package org.xandercat.pmdba.controller;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -126,5 +125,30 @@ public class MovieController {
 			LOGGER.error("Unable to delete movie.", e);
 			throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE);
 		}
+	}
+	
+	@GetMapping("/getTableColumnPreferences")
+	public List<String> getTableColumnPreferences(Principal principal) {
+		return movieService.getTableColumnPreferences(principal.getName());
+	}
+	
+	@PostMapping("/addTableColumnPreference")
+	public void addTableColumnPreference(@RequestBody String attributeName, Principal principal) {
+		movieService.addTableColumnPreference(attributeName, principal.getName());
+	}
+	
+	@PostMapping("/deleteTableColumnPreference")
+	public void deleteTableColumnPreference(@RequestBody int sourceIdx, Principal principal) {
+		movieService.deleteTableColumnPreference(sourceIdx, principal.getName());
+	}
+	
+	@PostMapping("/reorderTableColumnPreference")
+	public void reorderTableColumnPreference(@RequestBody int[] sourceAndTargetIdx, Principal principal) {
+		if (sourceAndTargetIdx.length != 2) {
+			throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+		int sourceIdx = sourceAndTargetIdx[0];
+		int targetIdx = sourceAndTargetIdx[1];
+		movieService.reorderTableColumnPreference(sourceIdx, targetIdx, principal.getName());
 	}
 }

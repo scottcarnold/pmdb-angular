@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MoviesRoutingModule } from './movies-routing.module';
 import { MovieListComponent } from './movie-list/movie-list.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -17,13 +18,15 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { EditMovieComponent } from './edit-movie/edit-movie.component';
 import { SharedModule } from '../shared/shared.module';
 import { MovieDetailComponent } from './movie-detail/movie-detail.component';
+import { TableColumnsComponent } from './table-columns/table-columns.component';
 
 
 @NgModule({
-  declarations: [MovieListComponent, EditMovieComponent, MovieDetailComponent],
+  declarations: [MovieListComponent, EditMovieComponent, MovieDetailComponent, TableColumnsComponent],
   imports: [
     CommonModule,
     MoviesRoutingModule,
+    DragDropModule,
     MatTableModule,
     MatButtonModule,
     MatPaginatorModule,

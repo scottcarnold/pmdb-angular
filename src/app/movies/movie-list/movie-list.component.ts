@@ -21,7 +21,7 @@ export class MovieListComponent implements OnInit, AfterViewInit {
   moviesTableDataSource: MatTableDataSource<Movie>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  columnsToDisplay: string[] = ['name', 'Imdb Rating', 'Actors'];
+  columnsToDisplay: string[] = ['name'];
   defaultCollectionInfo: CollectionInfo;
   movieSearchForm = this.formBuilder.group({
     search: ['', []]
@@ -51,24 +51,33 @@ export class MovieListComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.attrNames = ['Imdb Rating', 'Actors'];
+    this.attrNames = [];
     this.moviesTableDataSource = new MatTableDataSource<Movie>([]);
     this.collectionService.getDefaultMovieCollection().subscribe(collectionInfo => {
       this.defaultCollectionInfo = collectionInfo;
       this.loadMovies();
     });
     this.movieSearchForm.get('search').valueChanges.pipe(
-      debounceTime(800),
+      debounceTime(600),
       distinctUntilChanged()
     ).subscribe(value => this.search(value));
   }
 
   loadMovies(): void {
+    this.columnsToDisplay = ['name'];
     if (this.defaultCollectionInfo === null || this.defaultCollectionInfo === undefined) {
       this.movies = null;
       this.moviesTableDataSource.data = [];
+      this.attrNames = [];
     } else {
-        this.movieService.getMoviesForCollection(this.defaultCollectionInfo.collection.id).subscribe(movies => {
+      this.movieService.getAttributeKeysForCollection(this.defaultCollectionInfo.collection.id).subscribe(attributeKeys => {
+        this.attrNames = attributeKeys;
+        // don't populate columns to display until we have all of the attribute names to define the columns
+        this.movieService.getTableColumnPreferences().subscribe(tableColumns => {
+          this.columnsToDisplay = ['name', ...tableColumns];
+        });
+      });
+      this.movieService.getMoviesForCollection(this.defaultCollectionInfo.collection.id).subscribe(movies => {
         this.movies = movies;
         this.moviesTableDataSource.data = movies;
       });

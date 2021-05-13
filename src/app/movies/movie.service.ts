@@ -88,6 +88,12 @@ export class MovieService {
     );
   }
 
+  getTableColumnPreferences(): Observable<string[]> {
+    return this.http.get(this.moviesUrl + 'getTableColumnPreferences').pipe(
+      catchError(error => this.messageService.error('Unable to get table column information.', error))
+    )
+  }
+
   registerAttributeType(attributeKey: string, attributeType: AttributeType) {
     this.attributeTypeMap.set(attributeKey, attributeType);
   }

@@ -1,0 +1,4 @@
+<div cdkDropList cdkDropListOrientation="horizontal" class="table-columns" (cdkDropListDropped)="drop($event)">
+  <div class="table-column" *ngFor="let displayAttribute of displayAttributes" cdkDrag>{{displayAttribute}}</div>
+</div>
+
