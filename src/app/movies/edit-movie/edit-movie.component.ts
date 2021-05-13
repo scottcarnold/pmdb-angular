@@ -24,7 +24,6 @@ export class EditMovieComponent implements OnInit, OnDestroy {
   });
   attributeKeys: string[] = [];
   unusedAttributeKeys: string[] = [];
-  defaultCollection$: Subscription;
   loading: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
@@ -41,20 +40,12 @@ export class EditMovieComponent implements OnInit, OnDestroy {
         this.loadMovie(movieId);
       }
     });
-
-    // to catch default collection changes...
-    this.defaultCollection$ = this.collectionService.defaultCollectionChangeEvent.subscribe(collectionInfo => {
-      this.updateForDefaultCollection(collectionInfo);
-    });
-
-    // to handle initial default collection...
     this.collectionService.getDefaultMovieCollection().subscribe(collectionInfo => {
       this.updateForDefaultCollection(collectionInfo);
     });
   }
 
   ngOnDestroy(): void {
-    this.defaultCollection$.unsubscribe();
   }
 
   private formToMovie(): Movie {

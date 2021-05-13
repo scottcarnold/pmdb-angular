@@ -5,6 +5,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { MessageService } from '../../shared/message.service';
 import { AuthService } from '../../auth/auth.service';
 import { CollectionService } from '../../collections/collection.service';
+import { User } from '../../auth/user';
 
 @Component({
   selector: 'app-nav',
@@ -18,12 +19,7 @@ export class NavComponent implements OnInit, OnDestroy {
       map(result => result.matches),
       shareReplay()
     );
-  username: string = '';
-  loggedIn: boolean = false;
-  admin: boolean = false;
-  user$: Subscription;
-  shareOffers$: Subscription;
-  shareOffers: number;
+  shareOffersCount: number = 0;
 
   constructor(private breakpointObserver: BreakpointObserver,
     private messageService: MessageService,
@@ -31,29 +27,10 @@ export class NavComponent implements OnInit, OnDestroy {
     public collectionService: CollectionService) {  }
 
   ngOnInit() {
-    this.user$ = this.authService.userEvent.subscribe(user => {
-      if (user === null || user === undefined) {
-        this.username = '';
-        this.loggedIn = false;
-        this.admin = false;
-      } else {
-        this.username = user.name;
-        this.loggedIn = true;
-        this.admin = user.authorities?.includes('ROLE_ADMIN');
-      }
-    });
-    this.shareOffers$ = this.collectionService.shareOffersChangeEvent.subscribe(offerCount => {
-      this.shareOffers = offerCount;
-    });
+    this.collectionService.getShareofferMovieCollectionsCount().subscribe(count => this.shareOffersCount = count);
   }
 
   ngOnDestroy() {
-    if (this.user$) {
-      this.user$.unsubscribe();
-    }
-    if (this.shareOffers$) {
-      this.shareOffers$.unsubscribe();
-    }
   }
 
   clearMessages(): boolean {
@@ -62,6 +39,22 @@ export class NavComponent implements OnInit, OnDestroy {
     // are imperative and will not clear immediately as desired.
     this.messageService.clear();
     return true;
+  }
+
+  loggedIn(): boolean {
+    return this.authService.isUserAuthenticated();
+  }
+
+  user(): User {
+    return this.authService.getUser();
+  }
+
+  admin(): boolean {
+    let user: User = this.authService.getUser();
+    if (user === null || user === undefined) {
+      return false;
+    }
+    return user.authorities?.includes('ROLE_ADMIN');
   }
 
   logout(): void {

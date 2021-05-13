@@ -35,6 +35,7 @@ export class XhrInterceptor implements HttpInterceptor {
     // if user is unauthorized for a request, route them to the login page
     console.log('error status: ', err.status);
     if (err.status == 401) {  // not checking 403 as we are using 403 to indicate insufficient permissions witch isn't a log in issue
+      this.authService.clearAuthentication();
       if (this.authService.loginAttempts > 0) {
         this.router.navigate(['/login', this.authService.loginAttempts])
       } else {

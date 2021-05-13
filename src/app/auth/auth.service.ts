@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthData } from './auth-data';
 import { User }  from './user';
-import { Subject } from 'rxjs';
 import { LocalStorageService } from '../shared/local-storage.service';
 import { environment } from '../../environments/environment';
 
@@ -13,13 +12,11 @@ import { environment } from '../../environments/environment';
 export class AuthService {
 
   loginAttempts = 0;
-  userEvent: Subject<User>;
 
   private AUTH_DATA_KEY: string = 'PMDB_AUTH_DATA_OBJ';
 
   constructor(private http: HttpClient, private router: Router, private localStorageService: LocalStorageService) {
     console.log('AuthService constructor called');
-    this.userEvent = new Subject<User>()
   }
 
   authenticate(username: string, password: string, callback) {
@@ -35,14 +32,17 @@ export class AuthService {
         let user = { name: response['body']['name'], authorities: response['body']['authorities'] };
         let authData: AuthData = { user: user, xAuthToken: xAuthToken };
         this.localStorageService.set(this.AUTH_DATA_KEY, authData);
-        this.userEvent.next(user);
       } else {
         this.localStorageService.remove(this.AUTH_DATA_KEY);
         console.log('no authenticated user in response: ', response);
-        this.userEvent.next(null);
       }
       return callback && callback();
     });
+  }
+
+  clearAuthentication() {
+    this.localStorageService.remove(this.AUTH_DATA_KEY);
+    console.log('authentication information cleared.');
   }
 
   logout() {
@@ -50,7 +50,6 @@ export class AuthService {
       this.localStorageService.remove(this.AUTH_DATA_KEY);
       this.loginAttempts = 0;
       this.router.navigateByUrl('login');
-      this.userEvent.next(null);
     });
   }
 
