@@ -49,6 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/collections*").permitAll()    // front end connections paths
 				.antMatchers("/movies*").permitAll()         // front end movies paths
 				.antMatchers("/*.css").permitAll()           // style sheets
+				.antMatchers("/assets/*.css").permitAll()    // more style sheets
 				.antMatchers("/*.js").permitAll()            // Angular resources
 				.antMatchers("/*.js.map").permitAll()        // Angular resources
 				.antMatchers("/index.html").permitAll()      // Angular resource

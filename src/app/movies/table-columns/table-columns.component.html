@@ -1,4 +1,5 @@
 <h1>Reorder Movie Columns</h1>
+<button mat-mini-fab type="button" color="primary" routerLink="/movies"><mat-icon>arrow_back</mat-icon></button>
 <div cdkDropList cdkDropListOrientation="horizontal" class="table-columns" (cdkDropListDropped)="drop($event)">
   <div class="table-column" *ngFor="let displayAttribute of displayAttributes" cdkDrag>
     {{displayAttribute}}

@@ -1,8 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthData } from './auth-data';
 import { User }  from './user';
 import { Subject } from 'rxjs';
+import { LocalStorageService } from '../shared/local-storage.service';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -11,12 +13,12 @@ import { environment } from '../../environments/environment';
 export class AuthService {
 
   loginAttempts = 0;
-  authenticated: boolean = false;
-  xAuthToken: string = '';
-  user: User;
   userEvent: Subject<User>;
 
-  constructor(private http: HttpClient, private router: Router) {
+  private AUTH_DATA_KEY: string = 'PMDB_AUTH_DATA_OBJ';
+
+  constructor(private http: HttpClient, private router: Router, private localStorageService: LocalStorageService) {
+    console.log('AuthService constructor called');
     this.userEvent = new Subject<User>()
   }
 
@@ -27,30 +29,49 @@ export class AuthService {
     this.loginAttempts++;
     this.http.get(environment.servicesUrl + 'authenticate', {headers: headers, observe: 'response'}).subscribe(response => {
       if (response['body']['name']) {
-        this.authenticated = true;
         this.loginAttempts = 0;
         console.log(response);
-        this.xAuthToken = response.headers.get('devsessionid');
-        this.user = { name: response['body']['name'], authorities: response['body']['authorities'] };
+        let xAuthToken = response.headers.get('devsessionid');
+        let user = { name: response['body']['name'], authorities: response['body']['authorities'] };
+        let authData: AuthData = { user: user, xAuthToken: xAuthToken };
+        this.localStorageService.set(this.AUTH_DATA_KEY, authData);
+        this.userEvent.next(user);
       } else {
-        this.authenticated = false;
-        this.xAuthToken = '';
-        this.user = null;
+        this.localStorageService.remove(this.AUTH_DATA_KEY);
         console.log('no authenticated user in response: ', response);
+        this.userEvent.next(null);
       }
-      this.userEvent.next(this.user);
       return callback && callback();
     });
   }
 
   logout() {
     this.http.post(environment.servicesUrl + 'logout', {}).subscribe(() => {
-      this.user = null;
-      this.authenticated = false;
-      this.xAuthToken = '';
+      this.localStorageService.remove(this.AUTH_DATA_KEY);
       this.loginAttempts = 0;
       this.router.navigateByUrl('login');
-      this.userEvent.next(this.user);
+      this.userEvent.next(null);
     });
+  }
+
+  isUserAuthenticated(): boolean {
+    let authData = this.localStorageService.get(this.AUTH_DATA_KEY);
+    return (authData != null && authData != undefined);
+  }
+
+  getUser(): User {
+    let authData: AuthData = this.localStorageService.get(this.AUTH_DATA_KEY);
+    if (authData != null && authData != undefined) {
+      return authData.user;
+    }
+    return null;
+  }
+
+  getXAuthToken(): string {
+    let authData: AuthData = this.localStorageService.get(this.AUTH_DATA_KEY);
+    if (authData != null && authData != undefined) {
+      return authData.xAuthToken;
+    }
+    return '';
   }
 }

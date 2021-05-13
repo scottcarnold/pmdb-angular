@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
       this.loginForm.get('username').value,
       this.loginForm.get('password').value,
       () => {
-        if (this.authService.authenticated) {
+        if (this.authService.isUserAuthenticated()) {
           this.messageService.clear();
           this.collectionService.getDefaultMovieCollection().subscribe(
             collectionInfo => {

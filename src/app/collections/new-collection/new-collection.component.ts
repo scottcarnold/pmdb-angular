@@ -31,7 +31,7 @@ export class NewCollectionComponent implements OnInit {
   onSubmit(): void {
    let movieCollection = new Collection('',
       this.collectionForm.get('name').value,
-      this.authService.user.name,
+      this.authService.getUser().name,
       this.collectionForm.get('cloud').value,
       false);
     this.collectionService.addMovieCollection(movieCollection).subscribe(

@@ -3,16 +3,6 @@
 
   <input hidden="true" matInput formControlName="id">
 
-  <!-- form field example with validation directive only -->
-  <!--<mat-form-field class="fullWidth">
-    <mat-label>Movie Collection Name</mat-label>
-    <input matInput formControlName="name">
-    <mat-error>
-      <span [appValidation]="collectionForm.get('name')" fieldName="Movie Collection Name"></span>
-    </mat-error>
-  </mat-form-field><br/>-->
-
-  <!-- form field with custom component -->
   <app-form-field label="Movie Collection Name" [control]="collectionForm.get('name')" class="fullWidth">
     <input matInput formControlName="name"/>
   </app-form-field><br/>
@@ -20,5 +10,6 @@
   <mat-checkbox matInput formControlName="cloud">
     Store this collection on AWS Cloud
   </mat-checkbox><br/>
+  <button mat-raised-button type="button" routerLink="/collections">Cancel</button>
   <button mat-raised-button color="primary" type="submit" [disabled]="!collectionForm.valid">Save</button>
 </form>

@@ -26,7 +26,7 @@ export class XhrInterceptor implements HttpInterceptor {
     const xhr = req.clone({
       headers: req.headers
         .set('X-Requested-With', 'XMLHttpRequest')         // this will prevent the browser login popup since we are using HTTP Basic but with our own separate form
-        .set('X-Auth-Token', this.authService.xAuthToken)  // this provides the session id to the backend (really only needed to support using ng serve during development)
+        .set('X-Auth-Token', this.authService.getXAuthToken())  // this provides the session id to the backend (really only needed to support using ng serve during development)
     });
     return next.handle(xhr).pipe(catchError(x => this.handleAuthError(x)));
   }
