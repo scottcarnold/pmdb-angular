@@ -230,7 +230,16 @@ public class MovieServiceImpl implements MovieService {
 		Collections.sort(attributeKeys);
 		return attributeKeys;
 	}
-
+	
+	@Override
+	public List<String> getAttributeKeysForDefaultCollection(String callingUsername) throws CollectionSharingException, WebServicesException {
+		Optional<MovieCollectionInfo> defaultMovieCollection = collectionService.getDefaultMovieCollection(callingUsername);
+		if (defaultMovieCollection.isPresent()) {
+			return getAttributeKeysForCollection(defaultMovieCollection.get().getMovieCollection().getId(), callingUsername);
+		}
+		return Collections.emptyList();
+	}
+	
 	@Override
 	public Set<String> getImdbIdsInDefaultCollection(String callingUsername) throws WebServicesException {
 		Optional<MovieCollectionInfo> defaultMovieCollectionInfo = collectionService.getDefaultMovieCollection(callingUsername);

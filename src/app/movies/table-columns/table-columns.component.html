@@ -1,4 +1,18 @@
+<h1>Reorder Movie Columns</h1>
 <div cdkDropList cdkDropListOrientation="horizontal" class="table-columns" (cdkDropListDropped)="drop($event)">
-  <div class="table-column" *ngFor="let displayAttribute of displayAttributes" cdkDrag>{{displayAttribute}}</div>
+  <div class="table-column" *ngFor="let displayAttribute of displayAttributes" cdkDrag>
+    {{displayAttribute}}
+    <button type="button" mat-icon-button color="warn" (click)="removeAttribute(displayAttribute)" aria-label="Remove Attribute">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
 </div>
-
+<mat-form-field>
+  <mat-select [(value)]="selectedUnusedAttribute">
+    <mat-label>Movie Attribute</mat-label>
+    <ng-container *ngFor="let unusedAttribute of unusedAttributes">
+      <mat-option [value]="unusedAttribute">{{unusedAttribute}}</mat-option>
+    </ng-container>
+  </mat-select>
+</mat-form-field>
+<button type="button" mat-raised-button color="primary" (click)="addAttribute()" [disabled]="unusedAttributes?.length === 0" style="margin-left: 10px">Add Column</button>

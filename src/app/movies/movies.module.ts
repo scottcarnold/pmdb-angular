@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 import { EditMovieComponent } from './edit-movie/edit-movie.component';
 import { SharedModule } from '../shared/shared.module';
 import { MovieDetailComponent } from './movie-detail/movie-detail.component';
@@ -38,6 +39,7 @@ import { TableColumnsComponent } from './table-columns/table-columns.component';
     MatGridListModule,
     MatAutocompleteModule,
     MatProgressSpinnerModule,
+    MatSelectModule,
     ReactiveFormsModule,
     SharedModule
   ]

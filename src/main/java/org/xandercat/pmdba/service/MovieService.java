@@ -164,6 +164,17 @@ public interface MovieService {
 	public List<String> getAttributeKeysForCollection(String collectionId, String callingUsername) throws CollectionSharingException, WebServicesException; 
 	
 	/**
+	 * Return distinct list of attribute names for the user's default movie collection.
+	 * 
+	 * @param callingUsername  user making the call
+	 * 
+	 * @return list of all distinct attribute names for the movies of the given movie collection
+	 * @throws CollectionSharingException if user does not have permission to perform the operation
+	 * @throws WebServicesException if a web service failure occurs
+	 */	
+	public List<String> getAttributeKeysForDefaultCollection(String callingUsername) throws CollectionSharingException, WebServicesException;
+	
+	/**
 	 * Return distinct list of IMDB ids in the user's default/active movie collection.  This represents the list of all
 	 * movies within the user's default/active movie collection that are linked to movies in the IMDB.
 	 * 

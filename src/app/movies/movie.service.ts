@@ -61,6 +61,12 @@ export class MovieService {
     )
   }
 
+  getAttributeKeysForDefaultCollection(): Observable<string[]> {
+    return this.http.get(this.moviesUrl + 'defaultAttributeKeys').pipe(
+      catchError(error => this.messageService.error('Unable to lookup attribute keys for default collection.', error))
+    )
+  }
+
   getMovie(movieId: string): Observable<Movie> {
     return this.http.get(this.moviesUrl + 'getMovie',
     {params: new HttpParams().append('movieId', movieId)}).pipe(
@@ -92,6 +98,25 @@ export class MovieService {
     return this.http.get(this.moviesUrl + 'getTableColumnPreferences').pipe(
       catchError(error => this.messageService.error('Unable to get table column information.', error))
     )
+  }
+
+  addTableColumnPreference(attributeName: string): Observable<any> {
+    return this.http.post(this.moviesUrl + 'addTableColumnPreference', attributeName).pipe(
+      catchError(error => this.messageService.error('Unable to add table column.', error))
+    );
+  }
+
+  deleteTableColumnPreference(idx: number): Observable<any> {
+    return this.http.post(this.moviesUrl + 'deleteTableColumnPreference', idx).pipe(
+      catchError(error => this.messageService.error('Unable to remove table column.', error))
+    );
+  }
+
+  reorderTableColumnPreference(previous: number, current: number): Observable<any> {
+    const reorderArray = [previous, current];
+    return this.http.post(this.moviesUrl + 'reorderTableColumnPreference', reorderArray).pipe(
+      catchError(error => this.messageService.error('Unable to reorder table columns.', error))
+    );
   }
 
   registerAttributeType(attributeKey: string, attributeType: AttributeType) {

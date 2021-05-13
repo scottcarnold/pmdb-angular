@@ -68,6 +68,19 @@ public class MovieController {
 		}
 	}
 	
+	@GetMapping("/defaultAttributeKeys")
+	public List<String> attributeKeysForDefaultCollection(Principal principal) {
+		try {
+			return movieService.getAttributeKeysForDefaultCollection(principal.getName());
+		} catch (CollectionSharingException e) {
+			LOGGER.error("Unable to lookup attribute keys for collection.", e);
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+		} catch (WebServicesException e) {
+			LOGGER.error("Unable to lookup attribute keys for collection.", e);
+			throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE);	
+		}
+	}
+	
 	@GetMapping("/getMovie")
 	public Movie getMovie(@RequestParam String movieId, Principal principal) {
 		try {
