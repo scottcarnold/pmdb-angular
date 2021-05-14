@@ -51,6 +51,7 @@ export class MovieListComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.columnsToDisplay = ['name'];
     this.attrNames = [];
     this.moviesTableDataSource = new MatTableDataSource<Movie>([]);
     this.collectionService.getDefaultMovieCollection().subscribe(collectionInfo => {
@@ -74,7 +75,13 @@ export class MovieListComponent implements OnInit, AfterViewInit {
         this.attrNames = attributeKeys;
         // don't populate columns to display until we have all of the attribute names to define the columns
         this.movieService.getTableColumnPreferences().subscribe(tableColumns => {
-          this.columnsToDisplay = ['name', ...tableColumns];
+          // if none of our movies in the collection have a particular column preference,
+          // the Material table will cry foul.  Therefore, only add columns that are in the attrNames array
+          tableColumns.forEach(column => {
+            if (this.attrNames.includes(column)) {
+              this.columnsToDisplay.push(column);
+            }
+          });
         });
       });
       this.movieService.getMoviesForCollection(this.defaultCollectionInfo.collection.id).subscribe(movies => {
