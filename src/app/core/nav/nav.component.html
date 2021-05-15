@@ -37,7 +37,7 @@
       <span>PMDB</span>
       <span class="spacer"></span>
       <div *ngIf="loggedIn()">
-        <span style="padding-left: 10px; padding-right: 10px;">User: {{user().name}}</span>
+        <span style="padding-left: 10px; padding-right: 10px;">User: {{user()?.name}}</span>
         <button mat-button type="button" (click)="logout()">LOGOUT</button>
       </div>
     </mat-toolbar>

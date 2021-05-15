@@ -33,14 +33,21 @@ export class CollectionService {
 
   private refreshCache(): boolean {
     let currentUser: User = this.authService.getUser();
-    let cachedUser: string = this.localStorageService.get(this.USER_KEY);
+    let cachedUser: string = this.localStorageService.get(this.USER_KEY, 'refreshCache');
     if (currentUser?.name != cachedUser) {
-      console.log('clearing/refreshing collection service cache');
+      console.log('clearing/refreshing collection service cache.');
+      console.log('currentUser: ', currentUser);
+      console.log('cached user name: ', cachedUser);
       this.localStorageService.remove(this.DEFAULT_COLLECTION_KEY);
       this.localStorageService.remove(this.SHARE_OFFERS_KEY);
       this.localStorageService.remove(this.USER_KEY);
       if (currentUser != null && currentUser != undefined) {
+        console.log('!!! setting cached user to ' + currentUser.name);
         this.localStorageService.set(this.USER_KEY, currentUser.name);
+        let cUser = this.localStorageService.get(this.USER_KEY, 'refreshCacheCheck');
+        console.log('!!! double check cached user is ', cUser);
+      } else {
+        console.log('!!! NOT setting cached user; user does not exist');
       }
       return true;
     }
@@ -56,7 +63,7 @@ export class CollectionService {
   getDefaultMovieCollection(): Observable<CollectionInfo> {
     // use cache for the default collection as it is needed frequently and doesn't change much
     this.refreshCache();
-    let defaultCollectionInfo = this.localStorageService.get(this.DEFAULT_COLLECTION_KEY);
+    let defaultCollectionInfo = this.localStorageService.get(this.DEFAULT_COLLECTION_KEY, 'getDefaultMovieCollection');
     if (defaultCollectionInfo === null || defaultCollectionInfo === undefined) {
       console.log('loading default movie collection from back end');
       return this.getDefaultMovieCollectionInternal().pipe(
@@ -85,7 +92,7 @@ export class CollectionService {
   getShareofferMovieCollectionsCount(): Observable<number> {
     // use cache for the share offer count as it doesn't change much
     this.refreshCache();
-    let shareOfferCount: number = this.localStorageService.get(this.SHARE_OFFERS_KEY);
+    let shareOfferCount: number = this.localStorageService.get(this.SHARE_OFFERS_KEY, 'getShareOfferMovieCollectionsCount');
     if (shareOfferCount === null || shareOfferCount === undefined) {
       console.log('loading share offer collections from back end to get share offer count');
       return this.getShareOfferMovieCollections().pipe(
@@ -104,6 +111,7 @@ export class CollectionService {
     return this.http.post(this.collectionsUrl + 'changeDefault', collectionId).pipe(
       map((item: any) => this.ciAdapter.adapt(item)),
       tap((collectionInfo: CollectionInfo) => {
+        console.log('updating cached default collection');
         this.localStorageService.set(this.DEFAULT_COLLECTION_KEY, collectionInfo);
       }),
       catchError(error => this.messageService.error('Unable to change movie collections.', error))
@@ -126,7 +134,7 @@ export class CollectionService {
   acceptShareOffer(collectionId: string): Observable<any> {
     return this.http.post(this.collectionsUrl + 'acceptShareOffer', collectionId).pipe(
       tap(x => {
-        let shareOfferCount: number = this.localStorageService.get(this.SHARE_OFFERS_KEY);
+        let shareOfferCount: number = this.localStorageService.get(this.SHARE_OFFERS_KEY, 'acceptShareOffer');
         if (shareOfferCount != null && shareOfferCount != undefined) {
           shareOfferCount--;
           this.localStorageService.set(this.SHARE_OFFERS_KEY, shareOfferCount);
@@ -139,7 +147,7 @@ export class CollectionService {
   declineShareOffer(collectionId: string): Observable<any> {
     return this.http.post(this.collectionsUrl + 'declineShareOffer', collectionId).pipe(
       tap(x => {
-        let shareOfferCount: number = this.localStorageService.get(this.SHARE_OFFERS_KEY);
+        let shareOfferCount: number = this.localStorageService.get(this.SHARE_OFFERS_KEY, 'declineShareOffer');
         if (shareOfferCount != null && shareOfferCount != undefined) {
           shareOfferCount--;
           this.localStorageService.set(this.SHARE_OFFERS_KEY, shareOfferCount);
