@@ -5,7 +5,6 @@ import { AuthData } from './auth-data';
 import { User }  from './user';
 import { LocalStorageService } from '../shared/local-storage.service';
 import { environment } from '../../environments/environment';
-import { throwMatDialogContentAlreadyAttachedError } from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root'
@@ -25,12 +24,10 @@ export class AuthService {
   }
 
   authenticate(username: string, password: string, callback) {
-    console.log('authenticating user login');
     const headers = new HttpHeaders({
       authorization: 'Basic ' + btoa(username + ':' + password)
     });
     this.loginAttempts++;
-    console.log('calling local storage handleUserChange');
     this.localStorageService.handleUserChange();
     console.log('calling authenticate operation on back end service');
     this.http.get(environment.servicesUrl + 'authenticate', {headers: headers, observe: 'response'}).subscribe(response => {

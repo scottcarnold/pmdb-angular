@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { EMPTY, Observable, of, Subject, Subscription } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, catchError, tap } from "rxjs/operators";
 import { Collection, CollectionAdapter } from './collection';
 import { CollectionInfo, CollectionInfoAdapter } from './collection-info';
@@ -36,18 +36,11 @@ export class CollectionService {
     let cachedUser: string = this.localStorageService.get(this.USER_KEY, 'refreshCache');
     if (currentUser?.name != cachedUser) {
       console.log('clearing/refreshing collection service cache.');
-      console.log('currentUser: ', currentUser);
-      console.log('cached user name: ', cachedUser);
       this.localStorageService.remove(this.DEFAULT_COLLECTION_KEY);
       this.localStorageService.remove(this.SHARE_OFFERS_KEY);
       this.localStorageService.remove(this.USER_KEY);
       if (currentUser != null && currentUser != undefined) {
-        console.log('!!! setting cached user to ' + currentUser.name);
         this.localStorageService.set(this.USER_KEY, currentUser.name);
-        let cUser = this.localStorageService.get(this.USER_KEY, 'refreshCacheCheck');
-        console.log('!!! double check cached user is ', cUser);
-      } else {
-        console.log('!!! NOT setting cached user; user does not exist');
       }
       return true;
     }
