@@ -30,15 +30,11 @@ describe('AppComponent', () => {
         AppComponent
       ],
       providers: [
-        MockProvider(AuthService, {
-          userEvent: new Subject<User>()
-        }),
+        MockProvider(AuthService),
         MockProvider(CollectionService, {
           getDefaultMovieCollection: () => EMPTY,
           getViewableMovieCollections: () => EMPTY,
-          getShareOfferMovieCollections: () => EMPTY,
-          shareOffersChangeEvent: new Subject<number>(),
-          defaultCollectionChangeEvent: new Subject<CollectionInfo>()
+          getShareOfferMovieCollections: () => EMPTY
         }),
       ]
     }).compileComponents();

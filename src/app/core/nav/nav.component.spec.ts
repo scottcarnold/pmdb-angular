@@ -10,7 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NavComponent } from './nav.component';
 import { MockProvider } from 'ng-mocks';
-import { EMPTY, Subject } from 'rxjs';
+import { EMPTY, of, Subject } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
 import { CollectionService } from '../../collections/collection.service';
 import { User } from 'src/app/auth/user';
@@ -34,13 +34,11 @@ describe('NavComponent', () => {
         RouterTestingModule
       ],
       providers: [
-        MockProvider(AuthService, {
-          userEvent: new Subject<User>()
-        }),
+        MockProvider(AuthService),
         MockProvider(CollectionService, {
           getDefaultMovieCollection: () => EMPTY,
           getViewableMovieCollections: () => EMPTY,
-          shareOffersChangeEvent: new Subject<number>()
+          getShareofferMovieCollectionsCount: () => of(0)
         })
       ]
     }).compileComponents();

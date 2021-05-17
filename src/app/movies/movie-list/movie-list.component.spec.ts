@@ -37,8 +37,7 @@ describe('MovieListComponent', () => {
         FormBuilder,
         MockProvider(CollectionService, {
           getDefaultMovieCollection: () => EMPTY,
-          getViewableMovieCollections: () => EMPTY,
-          shareOffersChangeEvent: new Subject<number>()
+          getViewableMovieCollections: () => EMPTY
         })
       ]
     })

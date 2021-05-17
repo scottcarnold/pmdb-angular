@@ -38,9 +38,7 @@ describe('EditMovieComponent', () => {
         MockProvider(CollectionService, {
           getDefaultMovieCollection: () => EMPTY,
           getViewableMovieCollections: () => EMPTY,
-          getShareOfferMovieCollections: () => EMPTY,
-          shareOffersChangeEvent: new Subject<number>(),
-          defaultCollectionChangeEvent: new Subject<CollectionInfo>()
+          getShareOfferMovieCollections: () => EMPTY
         }),
         MockProvider(MovieService, {
           getMovie: (movieId) => of(new Movie(movieId, 'Test Movie', '1234', new Map()))

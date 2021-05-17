@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NewCollectionComponent } from './new-collection.component';
@@ -8,6 +8,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SharedModule } from '../../shared/shared.module';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthService } from '../../auth/auth.service';
+import { MockProvider } from 'ng-mocks';
 
 describe('NewCollectionComponent', () => {
   let component: NewCollectionComponent;
@@ -25,7 +27,10 @@ describe('NewCollectionComponent', () => {
         BrowserAnimationsModule
       ],
       declarations: [ NewCollectionComponent ],
-      providers: [ FormBuilder ]
+      providers: [
+        FormBuilder,
+        MockProvider(AuthService)
+      ]
     })
     .compileComponents();
   }));

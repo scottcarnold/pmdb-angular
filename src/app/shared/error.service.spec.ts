@@ -12,8 +12,7 @@ describe('ErrorService', () => {
       providers: [
         MockProvider(CollectionService, {
           getDefaultMovieCollection: () => EMPTY,
-          getViewableMovieCollections: () => EMPTY,
-          shareOffersChangeEvent: new Subject<number>()
+          getViewableMovieCollections: () => EMPTY
         })
       ]
     });
