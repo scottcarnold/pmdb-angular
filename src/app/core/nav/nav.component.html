@@ -5,24 +5,26 @@
       [opened]="false">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a *ngIf="loggedIn()" mat-list-item routerLink="/movies" (click)="clearMessages() && (drawer.mode === 'side' || drawer.close())">
-        <mat-icon>theaters</mat-icon>Home
-      </a>
-      <a *ngIf="loggedIn() && shareOffersCount == 0" mat-list-item routerLink="/collections" (click)="clearMessages() && (drawer.mode === 'side' || drawer.close())">
-        <mat-icon>dashboard_customize</mat-icon>Collections
-      </a>
-      <a *ngIf="loggedIn() && shareOffersCount > 0" mat-list-item routerLink="/collections" (click)="clearMessages() && (drawer.mode === 'side' || drawer.close())">
-        <mat-icon>dashboard_customize</mat-icon><span [matBadge]="shareOffersCount">Collections</span>
-      </a>
-      <a *ngIf="loggedIn()" mat-list-item href="#">
-        <mat-icon>saved_search</mat-icon>IMDB Search
-      </a>
-      <a *ngIf="loggedIn()" mat-list-item href="#">
-        <mat-icon>person</mat-icon>My Account
-      </a>
-      <a *ngIf="admin()" mat-list-item href="#">
-        <mat-icon>group</mat-icon>User Admin
-      </a>
+      <ng-container *ngIf="loggedIn()">
+        <a mat-list-item routerLink="/movies" (click)="clearMessages() && (drawer.mode === 'side' || drawer.close())">
+          <mat-icon>theaters</mat-icon>Home
+        </a>
+        <a *ngIf="shareOffersCount == 0" mat-list-item routerLink="/collections" (click)="clearMessages() && (drawer.mode === 'side' || drawer.close())">
+          <mat-icon>dashboard_customize</mat-icon>Collections
+        </a>
+        <a *ngIf="shareOffersCount > 0" mat-list-item routerLink="/collections" (click)="clearMessages() && (drawer.mode === 'side' || drawer.close())">
+          <mat-icon>dashboard_customize</mat-icon><span [matBadge]="shareOffersCount">Collections</span>
+        </a>
+        <a mat-list-item rounterLink="/imdbSearch" (click)="clearMessages() && (drawer.mode === 'side' || drawer.close())">
+          <mat-icon>saved_search</mat-icon>IMDB Search
+        </a>
+        <a mat-list-item href="#">
+          <mat-icon>person</mat-icon>My Account
+        </a>
+        <a *ngIf="admin()" mat-list-item href="#">
+          <mat-icon>group</mat-icon>User Admin
+        </a>
+      </ng-container>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

@@ -9,6 +9,7 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { MoviesModule } from './movies/movies.module';
 import { CollectionsModule } from './collections/collections.module';
+import { ImdbModule } from './imdb/imdb.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpInterceptor, HttpRequest, HttpHandler, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthService } from './auth/auth.service';
@@ -63,6 +64,7 @@ const matFormFieldDefaultOptions: MatFormFieldDefaultOptions = {
     SharedModule,
     MoviesModule,
     CollectionsModule,
+    ImdbModule,
     BrowserAnimationsModule
   ],
   providers: [
